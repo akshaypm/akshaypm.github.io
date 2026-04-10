@@ -12,7 +12,7 @@ export function Footer() {
         <h2 className="section-title" style={{ marginBottom: 8 }}>Let&apos;s Connect</h2>
         <div className="title-bar" />
 
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 64, alignItems: "start" }}>
+        <div className="footer-grid">
           {/* Left */}
           <div>
             <p style={{ fontFamily: "var(--fb)", fontSize: 15, color: "var(--grey-2)", lineHeight: 1.75, marginBottom: 36, maxWidth: 440 }}>
@@ -81,6 +81,21 @@ export function Footer() {
           </div>
         </div>
       </div>
+
+      <style>{`
+        .footer-grid {
+          display: grid;
+          grid-template-columns: 1fr;
+          gap: 40px;
+          align-items: start;
+        }
+        @media (min-width: 768px) {
+          .footer-grid {
+            grid-template-columns: 1fr 1fr;
+            gap: 64px;
+          }
+        }
+      `}</style>
 
       {/* Bottom bar */}
       <div style={{ borderTop: "1px solid var(--border)", padding: "20px 0" }}>

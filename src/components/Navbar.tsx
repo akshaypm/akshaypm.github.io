@@ -56,7 +56,8 @@ export function Navbar() {
             Akshay<span style={{ color: "var(--accent)" }}>.</span>
           </a>
 
-          <nav style={{ display: "flex", alignItems: "center", gap: 2 }} className="hidden md:flex">
+          {/* display is controlled entirely by Tailwind — no inline display property */}
+          <nav style={{ alignItems: "center", gap: 2 }} className="hidden md:flex">
             {LINKS.map(l => (
               <a
                 key={l.href}
@@ -79,7 +80,7 @@ export function Navbar() {
               </a>
             ))}
             <a
-              href="/resume.pdf"
+              href="/AkshayPM_Resume_1.0.0.pdf"
               target="_blank"
               rel="noopener noreferrer"
               className="btn-primary"
@@ -89,11 +90,12 @@ export function Navbar() {
             </a>
           </nav>
 
+          {/* flex + md:hidden — show as flex on mobile, hidden on desktop */}
           <button
             onClick={() => setOpen(!open)}
-            className="md:hidden"
+            className="flex md:hidden"
             aria-label="menu"
-            style={{ background: "transparent", border: "none", cursor: "pointer", padding: 4, display: "flex", flexDirection: "column", gap: 5 }}
+            style={{ background: "transparent", border: "none", cursor: "pointer", padding: 4, flexDirection: "column", gap: 5 }}
           >
             {[0, 1, 2].map(i => (
               <motion.span

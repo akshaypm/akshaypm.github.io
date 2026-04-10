@@ -67,7 +67,7 @@ export function SkillsGrid() {
           <div className="title-bar" />
         </BlurFade>
 
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 48, alignItems: "start" }}>
+        <div className="skills-grid">
           {/* Left — progress bars */}
           <BlurFade>
             <h3 style={{ fontFamily: "var(--fh)", fontSize: 18, fontWeight: 700, color: "var(--white)", marginBottom: 28, letterSpacing: "-0.02em" }}>
@@ -98,6 +98,21 @@ export function SkillsGrid() {
           </BlurFade>
         </div>
       </div>
+
+      <style>{`
+        .skills-grid {
+          display: grid;
+          grid-template-columns: 1fr;
+          gap: 40px;
+          align-items: start;
+        }
+        @media (min-width: 768px) {
+          .skills-grid {
+            grid-template-columns: 1fr 1fr;
+            gap: 48px;
+          }
+        }
+      `}</style>
     </section>
   );
 }

@@ -40,30 +40,108 @@ const CASES = [
   },
 ];
 
+const BAH_LABELS = [
+  { h: "Before", color: "rgba(255,80,80,0.7)" },
+  { h: "After",  color: "var(--accent)" },
+  { h: "How",    color: "rgba(120,160,255,0.8)" },
+] as const;
+
 function CaseCard({ c, i }: { c: typeof CASES[0]; i: number }) {
   const [open, setOpen] = useState(i === 0);
+
   return (
     <BlurFade delay={i * 0.07}>
-      <div className="card" style={{ overflow: "hidden", marginBottom: 12, borderColor: open ? "var(--border-accent)" : "var(--border)" }}>
+      <div
+        className="card"
+        style={{
+          overflow: "hidden",
+          marginBottom: 12,
+          borderColor: open ? "var(--border-accent)" : "var(--border)",
+        }}
+      >
+        {/* ── Header / toggle button ── */}
         <button
           onClick={() => setOpen(!open)}
           style={{
-            width: "100%", display: "flex", alignItems: "center", justifyContent: "space-between",
-            padding: "22px 28px", background: "transparent", border: "none", cursor: "pointer", textAlign: "left", gap: 16,
+            width: "100%",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            padding: "18px 20px",
+            background: "transparent",
+            border: "none",
+            cursor: "pointer",
+            textAlign: "left",
+            gap: 12,
           }}
         >
-          <div style={{ display: "flex", alignItems: "center", gap: 20 }}>
-            <div style={{ textAlign: "center", minWidth: 70 }}>
-              <div style={{ fontFamily: "var(--fh)", fontSize: "clamp(26px, 3vw, 36px)", fontWeight: 800, color: open ? "var(--accent)" : "var(--white)", letterSpacing: "-0.03em", lineHeight: 1, transition: "color 200ms" }}>
+          {/* metric + title row — wraps on mobile */}
+          <div style={{ display: "flex", alignItems: "center", gap: 16, minWidth: 0, flex: 1 }}>
+            {/* metric */}
+            <div style={{ textAlign: "center", flexShrink: 0 }}>
+              <div
+                style={{
+                  fontFamily: "var(--fh)",
+                  fontSize: "clamp(22px, 4vw, 34px)",
+                  fontWeight: 800,
+                  color: open ? "var(--accent)" : "var(--white)",
+                  letterSpacing: "-0.03em",
+                  lineHeight: 1,
+                  transition: "color 200ms",
+                  whiteSpace: "nowrap",
+                }}
+              >
                 {c.metric}
               </div>
-              <div style={{ fontFamily: "var(--fn)", fontSize: 10, color: "var(--grey-2)", letterSpacing: "0.06em", textTransform: "uppercase", marginTop: 3 }}>{c.label}</div>
+              <div
+                style={{
+                  fontFamily: "var(--fn)",
+                  fontSize: 9,
+                  color: "var(--grey-2)",
+                  letterSpacing: "0.05em",
+                  textTransform: "uppercase",
+                  marginTop: 3,
+                  whiteSpace: "nowrap",
+                }}
+              >
+                {c.label}
+              </div>
             </div>
-            <div style={{ borderLeft: "1px solid var(--border)", paddingLeft: 20 }}>
-              <div style={{ fontFamily: "var(--fh)", fontSize: 16, fontWeight: 700, color: "var(--white)", letterSpacing: "-0.02em" }}>{c.title}</div>
-              <div style={{ fontFamily: "var(--fn)", fontSize: 12, color: "var(--accent)", marginTop: 3 }}>{c.co}</div>
+
+            {/* divider + title */}
+            <div
+              style={{
+                borderLeft: "1px solid var(--border)",
+                paddingLeft: 16,
+                minWidth: 0,
+              }}
+            >
+              <div
+                style={{
+                  fontFamily: "var(--fh)",
+                  fontSize: "clamp(13px, 2.5vw, 16px)",
+                  fontWeight: 700,
+                  color: "var(--white)",
+                  letterSpacing: "-0.02em",
+                  lineHeight: 1.3,
+                }}
+              >
+                {c.title}
+              </div>
+              <div
+                style={{
+                  fontFamily: "var(--fn)",
+                  fontSize: 12,
+                  color: "var(--accent)",
+                  marginTop: 3,
+                }}
+              >
+                {c.co}
+              </div>
             </div>
           </div>
+
+          {/* chevron */}
           <motion.div
             animate={{ rotate: open ? 180 : 0 }}
             transition={{ duration: 0.25 }}
@@ -73,6 +151,7 @@ function CaseCard({ c, i }: { c: typeof CASES[0]; i: number }) {
           </motion.div>
         </button>
 
+        {/* ── Expandable body ── */}
         <AnimatePresence initial={false}>
           {open && (
             <motion.div
@@ -82,21 +161,69 @@ function CaseCard({ c, i }: { c: typeof CASES[0]; i: number }) {
               transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
               style={{ overflow: "hidden" }}
             >
-              <div style={{ padding: "0 28px 28px", borderTop: "1px solid var(--border)" }}>
-                <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 20, marginTop: 24, marginBottom: 20 }}>
+              <div
+                style={{
+                  padding: "0 20px 24px",
+                  borderTop: "1px solid var(--border)",
+                }}
+              >
+                {/* Before / After / How — stacked vertically on all screens */}
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: 10,
+                    marginTop: 20,
+                    marginBottom: 18,
+                  }}
+                >
                   {[
-                    { h: "Before", t: c.before },
-                    { h: "After", t: c.after },
-                    { h: "How", t: c.how },
-                  ].map(({ h, t }) => (
-                    <div key={h} style={{ padding: "16px", background: "var(--bg-primary)", borderRadius: 8, border: "1px solid var(--border)" }}>
-                      <p style={{ fontFamily: "var(--fn)", fontSize: 10, fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.12em", color: "var(--accent)", marginBottom: 8 }}>{h}</p>
-                      <p style={{ fontFamily: "var(--fb)", fontSize: 13, color: "var(--grey-2)", lineHeight: 1.65 }}>{t}</p>
+                    { h: "Before", t: c.before, accent: "rgba(255,80,80,0.65)" },
+                    { h: "After",  t: c.after,  accent: "var(--accent)" },
+                    { h: "How",    t: c.how,     accent: "rgba(120,160,255,0.8)" },
+                  ].map(({ h, t, accent }) => (
+                    <div
+                      key={h}
+                      style={{
+                        padding: "14px 16px",
+                        background: "var(--bg-primary)",
+                        borderRadius: 8,
+                        border: "1px solid var(--border)",
+                        borderLeft: `3px solid ${accent}`,
+                      }}
+                    >
+                      <p
+                        style={{
+                          fontFamily: "var(--fn)",
+                          fontSize: 10,
+                          fontWeight: 700,
+                          textTransform: "uppercase",
+                          letterSpacing: "0.12em",
+                          color: accent,
+                          marginBottom: 6,
+                        }}
+                      >
+                        {h}
+                      </p>
+                      <p
+                        style={{
+                          fontFamily: "var(--fb)",
+                          fontSize: 13,
+                          color: "var(--grey-2)",
+                          lineHeight: 1.65,
+                        }}
+                      >
+                        {t}
+                      </p>
                     </div>
                   ))}
                 </div>
+
+                {/* Tech stack pills */}
                 <div style={{ display: "flex", flexWrap: "wrap", gap: 7 }}>
-                  {c.stack.map(s => <span key={s} className="pill">{s}</span>)}
+                  {c.stack.map(s => (
+                    <span key={s} className="pill">{s}</span>
+                  ))}
                 </div>
               </div>
             </motion.div>
@@ -109,17 +236,30 @@ function CaseCard({ c, i }: { c: typeof CASES[0]; i: number }) {
 
 export function CaseStudies() {
   return (
-    <section id="case-studies" className="section-dark">
+    <section id="case-studies" className="section-dark" style={{ overflowX: "hidden" }}>
       <div className="wrap">
         <BlurFade>
           <span className="overline">Portfolio</span>
           <h2 className="section-title">Case Studies</h2>
           <div className="title-bar" />
-          <p style={{ fontFamily: "var(--fb)", fontSize: 15, color: "var(--grey-2)", maxWidth: 520, marginTop: -32, marginBottom: 48, lineHeight: 1.7 }}>
+          <p
+            style={{
+              fontFamily: "var(--fb)",
+              fontSize: 15,
+              color: "var(--grey-2)",
+              maxWidth: 520,
+              marginTop: -32,
+              marginBottom: 48,
+              lineHeight: 1.7,
+            }}
+          >
             Production challenges I&apos;ve solved — structured as Before → After → How.
           </p>
         </BlurFade>
-        {CASES.map((c, i) => <CaseCard key={c.title} c={c} i={i} />)}
+
+        {CASES.map((c, i) => (
+          <CaseCard key={c.title} c={c} i={i} />
+        ))}
       </div>
     </section>
   );

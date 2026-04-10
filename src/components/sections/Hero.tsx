@@ -94,14 +94,7 @@ export function Hero() {
         className="wrap"
         style={{ position: "relative", zIndex: 1, width: "100%", paddingTop: 90, paddingBottom: 80 }}
       >
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "1fr auto",
-            gap: "clamp(40px, 6vw, 96px)",
-            alignItems: "center",
-          }}
-        >
+        <div className="hero-grid">
           {/* ── LEFT: content ── */}
           <div>
             {/* Status */}
@@ -112,8 +105,8 @@ export function Hero() {
               style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 24 }}
             >
               <span className="dot-live" />
-              <span style={{ fontFamily: "var(--fn)", fontSize: 12, color: "var(--grey-2)", letterSpacing: "0.04em" }}>
-                Currently at GE Healthcare · Bengaluru, India · Open to Staff / Principal IoT roles
+              <span style={{ fontFamily: "var(--fn)", fontSize: 12, color: "var(--grey-2)", letterSpacing: "0.04em", lineHeight: 1.5 }}>
+                Currently at GE Healthcare · Open to Staff / Principal IoT roles
               </span>
             </motion.div>
 
@@ -334,8 +327,21 @@ export function Hero() {
       </div>
 
       <style>{`
-        @media (max-width: 767px) {
-          .hero-photo-col { display: none; }
+        /* Mobile — single column, photo hidden */
+        .hero-grid {
+          display: grid;
+          grid-template-columns: 1fr;
+          align-items: center;
+        }
+        .hero-photo-col { display: none; }
+
+        /* Tablet+ — two columns with photo */
+        @media (min-width: 768px) {
+          .hero-grid {
+            grid-template-columns: 1fr auto;
+            gap: clamp(40px, 6vw, 96px);
+          }
+          .hero-photo-col { display: block; }
         }
       `}</style>
     </section>

@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Raleway, Open_Sans, Poppins } from "next/font/google";
 import "./globals.css";
 
@@ -22,6 +22,13 @@ const poppins = Poppins({
   weight: ["400", "500", "600"],
   display: "swap",
 });
+
+// Ensures mobile browsers render at device width, not zoomed-out desktop width
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 5,
+};
 
 export const metadata: Metadata = {
   title: "Akshay P M — Staff Software Engineer, IoT Platform",
