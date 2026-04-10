@@ -67,7 +67,7 @@ export function Footer() {
                 Send a Message
               </motion.a>
               <motion.a
-                href="https://linkedin.com/in/akshay-pm90"
+                href="https://linkedin.com/in/akshaypm90"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="btn-outline"

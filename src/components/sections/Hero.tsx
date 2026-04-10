@@ -202,7 +202,7 @@ export function Hero() {
               <a href="/AkshayPM_Resume_1.0.0.pdf" target="_blank" rel="noopener noreferrer" className="btn-outline">
                 <Download size={14} /> Download Resume
               </a>
-              <a href="https://linkedin.com/in/akshay-pm90" target="_blank" rel="noopener noreferrer" className="btn-outline">
+              <a href="https://linkedin.com/in/akshaypm90" target="_blank" rel="noopener noreferrer" className="btn-outline">
                 <ExternalLink size={14} /> LinkedIn
               </a>
             </motion.div>
