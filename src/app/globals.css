@@ -462,6 +462,7 @@ h3 {
 .diagram svg.diagram-wide,
 .diagram svg.diagram-stack {
   width: 100%;
+  max-width: 100%;
   height: auto;
 }
 
@@ -711,6 +712,7 @@ h3 {
 @media (min-width: 900px) {
   .diagram svg.diagram-wide {
     display: block;
+    width: min(960px, 100%);
   }
 
   .diagram svg.diagram-stack {
