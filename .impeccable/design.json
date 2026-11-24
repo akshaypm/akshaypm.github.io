@@ -1,0 +1,132 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-11-24T15:30:00Z",
+  "title": "Design System: Signal Brief",
+  "extensions": {
+    "colorMeta": {
+      "paper": {
+        "role": "neutral",
+        "displayName": "Paper",
+        "canonical": "#F6F3EC",
+        "tonalRamp": ["#2A2722", "#4A453C", "#6B655A", "#8C8578", "#ADA696", "#CEC6B6", "#E4DFD4", "#F6F3EC"]
+      },
+      "ink": {
+        "role": "neutral",
+        "displayName": "Ink",
+        "canonical": "#141414",
+        "tonalRamp": ["#141414", "#2C2C2C", "#454545", "#5E5E5E", "#777777", "#909090", "#A9A9A9", "#C2C2C2"]
+      },
+      "stone": {
+        "role": "neutral",
+        "displayName": "Stone",
+        "canonical": "#5B5750",
+        "tonalRamp": ["#1C1B18", "#2E2C28", "#403E38", "#524F48", "#5B5750", "#7A756C", "#A39E94", "#D0CBC2"]
+      },
+      "line": {
+        "role": "neutral",
+        "displayName": "Hairline",
+        "canonical": "#D9D3C7",
+        "tonalRamp": ["#3A362F", "#564F45", "#726B5E", "#8E8678", "#AAA293", "#C6BDAE", "#D9D3C7", "#F3EFE6"]
+      },
+      "accent": {
+        "role": "primary",
+        "displayName": "Ink blue",
+        "canonical": "#1B3A6B",
+        "tonalRamp": ["#0C1A30", "#122744", "#183458", "#1B3A6B", "#3D5C8A", "#6E87AD", "#A3B4CE", "#D8E0EC"]
+      }
+    },
+    "typographyMeta": {
+      "display": { "displayName": "Display", "purpose": "The single claim in the hero." },
+      "heading": { "displayName": "Heading", "purpose": "Section titles." },
+      "body": { "displayName": "Body", "purpose": "Prose. 16px below 768px, 17px above." },
+      "label": { "displayName": "Label", "purpose": "Indexes, dates, tech lines, and controls." }
+    },
+    "shadows": [],
+    "motion": [
+      {
+        "name": "reveal",
+        "value": "opacity and 12px translate, 400ms, cubic-bezier(0.22, 1, 0.36, 1)",
+        "purpose": "Section entrance. Skipped when reduced motion is requested."
+      },
+      {
+        "name": "draw",
+        "value": "SVG pathLength, 400ms, same ease",
+        "purpose": "The Sherpa key path, once, when it enters view."
+      }
+    ],
+    "breakpoints": [
+      { "name": "body-type", "value": "768px" },
+      { "name": "diagram", "value": "900px" },
+      { "name": "skills", "value": "1080px" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Download resume. Ink fill, square, mono label.",
+      "html": "<a class=\"ds-btn\" href=\"/Akshay_PM_Resume.pdf\">Download resume</a>",
+      "css": ".ds-btn{display:inline-flex;align-items:center;min-height:44px;padding:0 18px;background:#141414;color:#F6F3EC;border:1px solid #141414;border-radius:0;font-family:ui-monospace,monospace;font-size:12px;letter-spacing:0.08em;text-transform:uppercase;text-decoration:none}.ds-btn:hover{background:transparent;color:#1B3A6B;border-color:#1B3A6B}.ds-btn:focus-visible{outline:2px solid #1B3A6B;outline-offset:3px}"
+    },
+    {
+      "name": "Text link",
+      "kind": "custom",
+      "refersTo": "text-link",
+      "description": "Email, LinkedIn, and the standards link.",
+      "html": "<a class=\"ds-link\" href=\"mailto:akshaypm90@gmail.com\">Email</a>",
+      "css": ".ds-link{color:#1B3A6B;font-family:ui-monospace,monospace;font-size:12px;letter-spacing:0.08em;text-transform:uppercase;text-decoration:underline;text-underline-offset:0.28em}.ds-link:hover{color:#141414;text-decoration-color:#1B3A6B;text-decoration-thickness:2px}.ds-link:focus-visible{outline:2px solid #1B3A6B;outline-offset:3px}"
+    },
+    {
+      "name": "Navigation",
+      "kind": "nav",
+      "refersTo": "button-primary",
+      "description": "Wordmark and four links on a hairline.",
+      "html": "<header class=\"ds-nav\"><a class=\"ds-mark\" href=\"#top\">Akshay P M</a><nav><a href=\"#work\">Work</a><a href=\"#experience\">Experience</a><a href=\"#contact\">Contact</a><a href=\"/Akshay_PM_Resume.pdf\">Resume</a></nav></header>",
+      "css": ".ds-nav{display:flex;justify-content:space-between;align-items:baseline;gap:24px;padding:16px 0;border-bottom:1px solid #D9D3C7;background:#F6F3EC}.ds-mark{font-family:Georgia,serif;font-size:17px;color:#141414;text-decoration:none}.ds-nav nav{display:flex;gap:20px}.ds-nav nav a{font-family:ui-monospace,monospace;font-size:12px;letter-spacing:0.08em;text-transform:uppercase;color:#141414;text-decoration:none}.ds-nav nav a:hover{color:#1B3A6B;text-decoration:underline}.ds-nav a:focus-visible{outline:2px solid #1B3A6B;outline-offset:3px}"
+    },
+    {
+      "name": "Section label",
+      "kind": "custom",
+      "refersTo": "text-link",
+      "description": "Mono index such as 01 — Now.",
+      "html": "<p class=\"ds-label\">01 — Now</p>",
+      "css": ".ds-label{margin:0;font-family:ui-monospace,monospace;font-size:12px;letter-spacing:0.08em;text-transform:uppercase;color:#5B5750}"
+    },
+    {
+      "name": "Now note",
+      "kind": "custom",
+      "refersTo": "text-link",
+      "description": "Ruled list of the current stack. Not a card.",
+      "html": "<ul class=\"ds-now\"><li>LangGraph</li><li>MCP client</li><li>G-Eval</li><li>Langfuse</li><li>GCP Cloud Run</li></ul>",
+      "css": ".ds-now{list-style:none;margin:0;padding:0;border-top:1px solid #D9D3C7}.ds-now li{font-family:ui-monospace,monospace;font-size:12px;letter-spacing:0.08em;text-transform:uppercase;color:#141414;padding:11px 0;border-bottom:1px solid #D9D3C7}"
+    }
+  ],
+  "narrative": {
+    "northStar": "A brief, not a brochure.",
+    "overview": "The page is a recruiter's brief for an Applied AI engineer. The first screen has to do two things: make the claim (agentic systems, on ten years of production cloud and IoT) and offer the resume. Everything after that is evidence, in the order a hiring manager can check.",
+    "keyCharacteristics": [
+      "One paper ground, one ink, one accent. The accent is a link, a focus ring, or the path through a diagram.",
+      "Type does the hierarchy. Newsreader for the claim, Geist for the prose, JetBrains Mono for indexes, dates, and the stack.",
+      "Sections are rows and rules, not cards. Vertical rhythm changes from section to section.",
+      "Motion is a short fade on the way in, and one drawn path on the Sherpa diagram. Nothing moves if the reader has asked for reduced motion."
+    ],
+    "rules": [
+      { "name": "The Ink Rule", "body": "Accent #1B3A6B appears on links, focus rings, and the key path of a diagram. It is not a background, a heading, or a decoration.", "section": "colors" },
+      { "name": "The Three Voices Rule", "body": "Newsreader carries headlines. Geist carries sentences. JetBrains Mono carries anything that is an index, a date, a technology, or a control label. Mono is not a texture for ordinary prose.", "section": "typography" },
+      { "name": "The Flat Rule", "body": "There is no shadow, no glow, and no blur. Depth is a hairline or a change of type. Focus is a 2px accent outline, offset 3px, and that is the only lift an interactive element gets.", "section": "elevation" }
+    ],
+    "dos": [
+      "Keep every sentence traceable to the CV. If a number is not in the CV, it is not on the page.",
+      "Leave the accent rare.",
+      "Keep the resume control above the fold at 1440×900 and at 390×844.",
+      "Respect prefers-reduced-motion."
+    ],
+    "donts": [
+      "Don't put the phone number on the page.",
+      "Don't claim an IEEE paper, RFC authorship, a JLL GPT, an MCP server, vLLM, BM25, shipped RAG, or a Sherpa metric.",
+      "Don't add cards, icon rows, gradients, glow, glass, or skill bars.",
+      "Don't render a placeholder for the public repository. The slot stays empty until a repo is cleared."
+    ]
+  }
+}

@@ -1,46 +1,98 @@
 import type { Metadata, Viewport } from "next";
-import { Raleway, Open_Sans, Poppins } from "next/font/google";
+import { Geist, JetBrains_Mono, Newsreader } from "next/font/google";
 import "./globals.css";
 
-const raleway = Raleway({
-  variable: "--font-heading",
+const newsreader = Newsreader({
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "800"],
   display: "swap",
+  style: "normal",
+  weight: ["400", "500"],
+  variable: "--font-newsreader",
+  adjustFontFallback: true,
 });
 
-const openSans = Open_Sans({
-  variable: "--font-body",
+const geist = Geist({
   subsets: ["latin"],
-  weight: ["400", "500", "600"],
   display: "swap",
+  weight: ["400", "500"],
+  variable: "--font-geist",
+  preload: false,
+  adjustFontFallback: true,
 });
 
-const poppins = Poppins({
-  variable: "--font-nav",
+const jetbrains = JetBrains_Mono({
   subsets: ["latin"],
-  weight: ["400", "500", "600"],
   display: "swap",
+  weight: ["400"],
+  variable: "--font-jetbrains",
+  preload: false,
+  adjustFontFallback: true,
 });
 
-// Ensures mobile browsers render at device width, not zoomed-out desktop width
+const description =
+  "Senior AI Engineer at Norwin in Bengaluru, open to remote. Ten years of production cloud, IoT, and backend. Now building Sherpa-v2 on GCP Cloud Run.";
+
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
-  maximumScale: 5,
+  themeColor: "#F6F3EC",
 };
 
 export const metadata: Metadata = {
-  title: "Akshay P M — Staff Software Engineer, IoT Platform",
-  description: "Staff Software Engineer with 10+ years designing, securing, and operating edge-to-cloud IoT systems. GE Healthcare · JLL · Deloitte · Samsung · IISc.",
-  authors: [{ name: "Akshay P M" }],
+  metadataBase: new URL("https://akshaypm.github.io"),
+  title: "Akshay P M — Applied AI Engineer",
+  description,
+  authors: [{ name: "Akshay P M", url: "https://akshaypm.github.io" }],
+  alternates: { canonical: "/" },
+  openGraph: {
+    title: "Akshay P M — Applied AI Engineer",
+    description,
+    url: "https://akshaypm.github.io",
+    siteName: "Akshay P M",
+    type: "website",
+    locale: "en_IN",
+  },
+  twitter: {
+    card: "summary",
+    title: "Akshay P M — Applied AI Engineer",
+    description,
+  },
   robots: { index: true, follow: true },
+};
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: "Akshay P M",
+  jobTitle: "Senior AI Engineer",
+  worksFor: {
+    "@type": "Organization",
+    name: "Norwin",
+  },
+  email: "akshaypm90@gmail.com",
+  url: "https://akshaypm.github.io",
+  sameAs: ["https://www.linkedin.com/in/akshaypm90"],
+  address: {
+    "@type": "PostalAddress",
+    addressLocality: "Bengaluru",
+    addressCountry: "IN",
+  },
+  description,
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${raleway.variable} ${openSans.variable} ${poppins.variable}`}>
-      <body>{children}</body>
+    <html
+      lang="en"
+      className={`${newsreader.variable} ${geist.variable} ${jetbrains.variable}`}
+    >
+      <body>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+        {children}
+      </body>
     </html>
   );
 }
