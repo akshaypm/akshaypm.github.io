@@ -23,11 +23,15 @@ export function Hero() {
         </div>
         <aside className="now" aria-label="Current stack">
           <p className="label">01 — Now</p>
+          <p className="now-sentence">
+            Building Sherpa-v2 at Norwin, an AI-agent platform on GCP Cloud Run.
+          </p>
           <ul className="now-list">
             {nowStack.map((item) => (
               <li key={item}>{item}</li>
             ))}
           </ul>
+          <p className="now-inline">{nowStack.join(" · ")}</p>
         </aside>
       </div>
     </section>

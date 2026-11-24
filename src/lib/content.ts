@@ -18,7 +18,7 @@ export const sherpa = {
   problem:
     "Deployed agent workloads still have to be identified, evaluated, and traced. Sherpa-v2 is the GCP Cloud Run platform I build at Norwin for that work. It deploys and profiles an agent workload, classifies its framework and entry point, discovers evaluation datasets, and replays them against the deployment.",
   architecture:
-    "Deploy on Cloud Run, profile the framework and entry point, discover evaluation datasets, replay them with a client-side Executor MCP agent, score the run with G-Eval, and keep the trace in Langfuse.",
+    "Deploy on Cloud Run, profile the framework and entry point, and discover evaluation datasets. A client-side Executor MCP agent replays them against the deployment. G-Eval scores the run. Langfuse traces the whole run.",
   role: "I wrote LangGraph ReAct agents with tool calling and MCP client integration, including the client-side Executor that replays profiling datasets against live deployments. I implemented G-Eval as the LLM-as-judge and Langfuse tracing on those runs. For distributed runs I added run-scoped trace identity, separated infrastructure artifacts from application errors, and realigned timeout envelopes that were causing lease-expiry failures.",
   outcome:
     "A workload can be deployed, classified, and replayed against the datasets Sherpa discovers. When a run fails, the trace stays with that run, an infrastructure fault is not treated as an application error, and a lease is not dropped by a timeout envelope that was too short.",
