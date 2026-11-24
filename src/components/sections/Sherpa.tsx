@@ -8,20 +8,22 @@ export function Sherpa() {
       <div className="frame">
         <Reveal>
           <p className="label">02 — Case study</p>
-          <div className="grid-12">
-            <h2 id="sherpa-heading" className="span-7">
+          <div className="sherpa-head">
+            <h2 id="sherpa-heading" className="sherpa-title">
               Sherpa-v2
             </h2>
-            <div className="span-5">
+            <div className="sherpa-problem">
               <h3 className="part">Problem</h3>
-              <p className="measure">{sherpa.problem}</p>
+              <p>{sherpa.problem}</p>
+            </div>
+            <div className="sherpa-arch-copy">
+              <h3 className="part">Architecture</h3>
+              <p>{sherpa.architecture}</p>
             </div>
           </div>
         </Reveal>
 
         <div className="sherpa-arch">
-          <h3 className="part">Architecture</h3>
-          <p className="measure">{sherpa.architecture}</p>
           <SherpaDiagram />
         </div>
 

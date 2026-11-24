@@ -430,8 +430,20 @@ h3 {
   color: var(--stone);
 }
 
+.sherpa-head {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 28px;
+}
+
+.sherpa-problem p,
+.sherpa-arch-copy p {
+  margin: 0;
+  max-width: 62ch;
+}
+
 .sherpa-arch {
-  margin-top: 48px;
+  margin-top: 36px;
 }
 
 .sherpa-split {
@@ -707,6 +719,28 @@ h3 {
 
   .grid-12 {
     grid-template-columns: repeat(12, minmax(0, 1fr));
+  }
+
+  .sherpa-head {
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: 32px;
+    row-gap: 18px;
+    align-items: start;
+  }
+
+  .sherpa-title {
+    grid-column: 1 / 8;
+    grid-row: 1;
+  }
+
+  .sherpa-arch-copy {
+    grid-column: 1 / 8;
+    grid-row: 2;
+  }
+
+  .sherpa-problem {
+    grid-column: 8 / 13;
+    grid-row: 1 / span 2;
   }
 
   .span-5 {

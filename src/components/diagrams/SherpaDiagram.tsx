@@ -3,15 +3,16 @@
 import { motion, useReducedMotion } from "framer-motion";
 
 const diagramTitle =
-  "Sherpa-v2: a workload is deployed on Cloud Run, profiled, and matched to evaluation datasets. The Executor MCP agent replays those datasets against the deployment. G-Eval scores the run. Langfuse traces the whole run.";
+  "Sherpa-v2: a workload is deployed on Cloud Run, profiled, and matched to evaluation datasets. The Executor replays those datasets against the deployment. G-Eval scores the run. Langfuse traces every step.";
 
 const ink = "#141414";
 const stone = "#5B5750";
 const accent = "#1B3A6B";
+const paper = "#F6F3EC";
 
-function head(x: number, y: number, deg: number, len = 9) {
+function head(x: number, y: number, deg: number, len = 6) {
   const rad = (deg * Math.PI) / 180;
-  const spread = 0.42;
+  const spread = 0.5;
   const x1 = x - Math.cos(rad - spread) * len;
   const y1 = y - Math.sin(rad - spread) * len;
   const x2 = x - Math.cos(rad + spread) * len;
@@ -22,13 +23,15 @@ function head(x: number, y: number, deg: number, len = 9) {
 function Stroke({
   d,
   color,
-  width = 1.25,
+  width = 1,
   animate,
+  dashed = false,
 }: {
   d: string;
   color: string;
   width?: number;
   animate: boolean;
+  dashed?: boolean;
 }) {
   const props = {
     d,
@@ -38,9 +41,10 @@ function Stroke({
     strokeLinecap: "square" as const,
     strokeLinejoin: "miter" as const,
     vectorEffect: "non-scaling-stroke" as const,
+    strokeDasharray: dashed ? "2 4" : undefined,
   };
 
-  if (!animate) {
+  if (!animate || dashed) {
     return <path {...props} />;
   }
 
@@ -55,197 +59,213 @@ function Stroke({
   );
 }
 
-function Wide({ animate }: { animate: boolean }) {
+function Segment({
+  x,
+  y,
+  width,
+  color,
+}: {
+  x: number;
+  y: number;
+  width: number;
+  color: string;
+}) {
   return (
-    <svg
-      className="diagram-wide"
-      viewBox="0 0 1040 430"
-      role="img"
-      aria-labelledby="sherpa-wide-title"
-    >
+    <line
+      x1={x}
+      y1={y}
+      x2={x + width}
+      y2={y}
+      stroke={color}
+      strokeWidth={1}
+      vectorEffect="non-scaling-stroke"
+    />
+  );
+}
+
+function Wide({ animate }: { animate: boolean }) {
+  const seg = 200;
+  const gap = 24;
+  const x0 = 24;
+  const y1 = 72;
+  const y2 = y1 + 120;
+  const yLang = y2 + 40;
+  const deploy = x0;
+  const profile = deploy + seg + gap;
+  const discover = profile + seg + gap;
+  const executor = discover;
+  const geval = executor + seg + gap;
+
+  return (
+    <svg className="diagram-wide" viewBox="0 0 960 280" role="img" aria-labelledby="sherpa-wide-title">
       <title id="sherpa-wide-title">{diagramTitle}</title>
 
-      <Stroke animate={animate} color={ink} d="M 140 28 H 760" />
-      <Stroke animate={animate} color={ink} d="M 200 28 V 46 M 470 28 V 46 M 700 28 V 46" />
-      <text x="32" y="32" fill={ink} fontSize="13">
-        Langfuse
-      </text>
-      <text x="776" y="32" fill={stone} fontSize="12">
-        observes the whole run
-      </text>
-
-      <text x="40" y="158" fill={ink} fontSize="28">
+      <text x={deploy} y={y1 - 34} fill={ink} fontSize="22" style={{ fontFamily: "var(--serif)" }}>
         Deploy
       </text>
-      <text x="40" y="182" fill={stone} fontSize="13">
+      <text x={deploy} y={y1 - 8} fill={stone} fontSize="12">
         Cloud Run workload
       </text>
-      <Stroke animate={false} color={ink} width={2} d="M 40 196 H 250" />
-      <Stroke animate={false} color={ink} d="M 40 203 H 168" />
+      <Segment x={deploy} y={y1} width={seg} color={ink} />
 
-      <text x="360" y="102" fill={ink} fontSize="15">
+      <text x={profile} y={y1 - 28} fill={ink} fontSize="15">
         Profile
       </text>
-      <text x="360" y="122" fill={stone} fontSize="12">
-        Framework
+      <text x={profile} y={y1 - 8} fill={stone} fontSize="12">
+        Framework and entry point
       </text>
-      <text x="360" y="138" fill={stone} fontSize="12">
-        and entry point
-      </text>
-      <Stroke animate={false} color={ink} d="M 360 148 H 520" />
+      <Segment x={profile} y={y1} width={seg} color={ink} />
 
-      <text x="660" y="102" fill={ink} fontSize="15">
+      <text x={discover} y={y1 - 28} fill={ink} fontSize="15">
         Discover
       </text>
-      <text x="660" y="122" fill={stone} fontSize="12">
+      <text x={discover} y={y1 - 8} fill={stone} fontSize="12">
         Eval datasets
       </text>
-      <Stroke animate={false} color={ink} d="M 660 132 H 810" />
+      <Segment x={discover} y={y1} width={seg} color={ink} />
 
-      <text x="520" y="286" fill={accent} fontSize="20">
+      <text x={executor} y={y2 - 28} fill={accent} fontSize="15">
         Executor
       </text>
-      <text x="520" y="306" fill={accent} fontSize="12">
+      <text x={executor} y={y2 - 8} fill={accent} fontSize="12">
         MCP agent replays
       </text>
-      <Stroke animate={false} color={accent} width={1.75} d="M 520 318 H 720" />
+      <Segment x={executor} y={y2} width={seg} color={accent} />
 
-      <text x="820" y="286" fill={accent} fontSize="18">
+      <text x={geval} y={y2 - 28} fill={accent} fontSize="15">
         G-Eval
       </text>
-      <text x="820" y="306" fill={accent} fontSize="12">
+      <text x={geval} y={y2 - 8} fill={accent} fontSize="12">
         scores the run
       </text>
-      <Stroke animate={false} color={accent} width={1.75} d="M 820 318 H 990" />
+      <Segment x={geval} y={y2} width={seg} color={accent} />
 
-      <text x="170" y="368" fill={stone} fontSize="12">
-        against the deployment
+      <Stroke
+        animate={animate}
+        color={ink}
+        d={`M ${deploy + seg} ${y1} H ${profile - 6} ${head(profile, y1, 0)}`}
+      />
+      <Stroke
+        animate={animate}
+        color={ink}
+        d={`M ${profile + seg} ${y1} H ${discover - 6} ${head(discover, y1, 0)}`}
+      />
+      <Stroke
+        animate={animate}
+        color={ink}
+        d={`M ${discover} ${y1} V ${y2 - 6} ${head(discover, y2, 90)}`}
+      />
+      <Stroke
+        animate={animate}
+        color={accent}
+        d={`M ${executor + seg} ${y2} H ${geval - 6} ${head(geval, y2, 0)}`}
+      />
+      <Stroke
+        animate={animate}
+        color={accent}
+        d={`M ${executor} ${y2} H ${deploy + 8} A 8 8 0 0 1 ${deploy} ${y2 - 8} V ${y1 + 6} ${head(deploy, y1, -90)}`}
+      />
+      <text x={(executor + deploy) / 2} y={y2 - 8} fill={accent} fontSize="12" textAnchor="middle">
+        replays against the deployment
       </text>
 
+      <rect x="20" y={yLang - 9} width="196" height="16" fill={paper} />
+      <text x="24" y={yLang + 4} fill={stone} fontSize="12">
+        Langfuse traces every step
+      </text>
       <Stroke
-        animate={animate}
-        color={ink}
-        d={`M 250 196 C 300 196 310 148 348 148 ${head(348, 148, 0)}`}
-      />
-      <Stroke
-        animate={animate}
-        color={ink}
-        d={`M 520 148 C 560 148 600 132 648 132 ${head(648, 132, 0)}`}
-      />
-      <Stroke
-        animate={animate}
-        color={accent}
-        width={1.5}
-        d={`M 690 136 V 310 ${head(690, 318, 90)}`}
-      />
-      <Stroke
-        animate={animate}
-        color={accent}
-        width={1.5}
-        d={`M 736 318 H 808 ${head(808, 318, 0)}`}
-      />
-      <Stroke
-        animate={animate}
-        color={accent}
-        width={1.5}
-        d={`M 520 318 C 260 400 8 250 32 196 ${head(32, 196, 0)}`}
+        animate={false}
+        dashed
+        color={stone}
+        d={`M 224 ${yLang} H ${geval + seg}`}
       />
     </svg>
   );
 }
 
 function Stack({ animate }: { animate: boolean }) {
+  const seg = 168;
+  const x = 28;
+  const ys = [78, 166, 254, 342];
+  const gW = 120;
+  const gY = 430;
+  const gRight = x + seg;
+  const gX = gRight - gW;
+  const loopX = 14;
+  const labelY = (ys[1] + ys[3]) / 2;
+
   return (
-    <svg
-      className="diagram-stack"
-      viewBox="0 0 360 620"
-      role="img"
-      aria-labelledby="sherpa-stack-title"
-    >
+    <svg className="diagram-stack" viewBox="0 0 360 500" role="img" aria-labelledby="sherpa-stack-title">
       <title id="sherpa-stack-title">{diagramTitle}</title>
 
-      <text x="28" y="22" fill={ink} fontSize="14">
-        Langfuse
+      <text x={x} y="20" fill={stone} fontSize="13">
+        Langfuse traces every step
       </text>
-      <text x="118" y="22" fill={stone} fontSize="13">
-        observes the run
-      </text>
-      <Stroke animate={animate} color={ink} d="M 344 36 V 560" />
-      <Stroke animate={animate} color={ink} d="M 328 90 H 344 M 328 250 H 344 M 328 470 H 344" />
+      <Stroke animate={false} dashed color={stone} d={`M ${x + seg + 18} 32 V ${gY}`} />
 
-      <text x="36" y="78" fill={ink} fontSize="22">
+      <text x={x} y={ys[0] - 30} fill={ink} fontSize="18" fontFamily="var(--serif)">
         Deploy
       </text>
-      <text x="36" y="100" fill={stone} fontSize="14">
+      <text x={x} y={ys[0] - 8} fill={stone} fontSize="13">
         Cloud Run workload
       </text>
-      <Stroke animate={false} color={ink} width={2} d="M 36 114 H 210" />
-      <Stroke animate={false} color={ink} d="M 36 121 H 150" />
+      <Segment x={x} y={ys[0]} width={seg} color={ink} />
 
-      <text x="36" y="196" fill={ink} fontSize="15">
+      <text x={x} y={ys[1] - 28} fill={ink} fontSize="15">
         Profile
       </text>
-      <text x="36" y="216" fill={stone} fontSize="13">
-        Framework and entry point
+      <text x={x} y={ys[1] - 8} fill={stone} fontSize="13">
+        Framework and entry
       </text>
-      <Stroke animate={false} color={ink} d="M 36 226 H 168" />
+      <Segment x={x} y={ys[1]} width={seg} color={ink} />
 
-      <text x="36" y="300" fill={ink} fontSize="15">
+      <text x={x} y={ys[2] - 28} fill={ink} fontSize="15">
         Discover
       </text>
-      <text x="36" y="320" fill={stone} fontSize="13">
+      <text x={x} y={ys[2] - 8} fill={stone} fontSize="13">
         Eval datasets
       </text>
-      <Stroke animate={false} color={ink} d="M 36 330 H 150" />
+      <Segment x={x} y={ys[2]} width={seg} color={ink} />
 
-      <text x="36" y="430" fill={accent} fontSize="18">
+      <text x={x} y={ys[3] - 28} fill={accent} fontSize="15">
         Executor
       </text>
-      <text x="36" y="450" fill={accent} fontSize="13">
+      <text x={x} y={ys[3] - 8} fill={accent} fontSize="13">
         MCP agent replays
       </text>
-      <Stroke animate={false} color={accent} width={1.75} d="M 36 462 H 168" />
+      <Segment x={x} y={ys[3]} width={seg} color={accent} />
 
-      <text x="196" y="430" fill={accent} fontSize="16">
+      <text x={gX} y={gY - 28} fill={accent} fontSize="15">
         G-Eval
       </text>
-      <text x="196" y="450" fill={accent} fontSize="13">
+      <text x={gX} y={gY - 8} fill={accent} fontSize="13">
         scores the run
       </text>
-      <Stroke animate={false} color={accent} width={1.75} d="M 196 462 H 320" />
+      <Segment x={gX} y={gY} width={gW} color={accent} />
 
-      <text x="36" y="512" fill={stone} fontSize="13">
-        against the deployment
+      <Stroke animate={animate} color={ink} d={`M ${x} ${ys[0]} V ${ys[1] - 6} ${head(x, ys[1], 90)}`} />
+      <Stroke animate={animate} color={ink} d={`M ${x} ${ys[1]} V ${ys[2] - 6} ${head(x, ys[2], 90)}`} />
+      <Stroke animate={animate} color={ink} d={`M ${x} ${ys[2]} V ${ys[3] - 6} ${head(x, ys[3], 90)}`} />
+      <Stroke
+        animate={animate}
+        color={accent}
+        d={`M ${gRight} ${ys[3]} V ${gY - 6} ${head(gRight, gY, 90)}`}
+      />
+      <Stroke
+        animate={animate}
+        color={accent}
+        d={`M ${x} ${ys[3]} H ${loopX + 8} A 8 8 0 0 1 ${loopX} ${ys[3] - 8} V ${ys[0] + 8} A 8 8 0 0 1 ${loopX + 8} ${ys[0]} H ${x - 6} ${head(x, ys[0], 0)}`}
+      />
+      <text
+        x={loopX - 8}
+        y={labelY}
+        fill={accent}
+        fontSize="13"
+        textAnchor="middle"
+        transform={`rotate(-90 ${loopX - 8} ${labelY})`}
+      >
+        replays against the deployment
       </text>
-
-      <Stroke
-        animate={animate}
-        color={ink}
-        d={`M 100 121 V 178 ${head(100, 178, 90)}`}
-      />
-      <Stroke
-        animate={animate}
-        color={ink}
-        d={`M 90 226 V 282 ${head(90, 282, 90)}`}
-      />
-      <Stroke
-        animate={animate}
-        color={accent}
-        width={1.5}
-        d={`M 80 330 V 408 ${head(80, 408, 90)}`}
-      />
-      <Stroke
-        animate={animate}
-        color={accent}
-        width={1.5}
-        d={`M 168 446 H 188 ${head(188, 446, 0)}`}
-      />
-      <Stroke
-        animate={animate}
-        color={accent}
-        width={1.5}
-        d={`M 36 462 C 6 500 6 114 30 114 ${head(34, 114, 0)}`}
-      />
     </svg>
   );
 }
@@ -259,8 +279,8 @@ export function SherpaDiagram() {
       <Wide animate={animate} />
       <Stack animate={animate} />
       <figcaption className="caption">
-        The Executor replays datasets against the deployment. G-Eval scores the run. Langfuse
-        traces all of it.
+        The Executor replays datasets against the deployment. G-Eval scores the run. Langfuse traces
+        every step.
       </figcaption>
     </figure>
   );
