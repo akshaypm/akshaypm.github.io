@@ -98,7 +98,14 @@ export function TraceViewer() {
             {illustrativeRun.ticks.map((tick, index) => (
               <span
                 key={tick}
-                className={index === 0 ? "axis-tick is-first" : index === illustrativeRun.ticks.length - 1 ? "axis-tick is-last" : "axis-tick"}
+                className={[
+                  "axis-tick",
+                  index === 0 ? "is-first" : "",
+                  index === illustrativeRun.ticks.length - 1 ? "is-last" : "",
+                  tick % 4 === 0 ? "is-major" : "",
+                ]
+                  .filter(Boolean)
+                  .join(" ")}
                 style={{ left: `${(tick / illustrativeRun.axisSeconds) * 100}%` }}
               >
                 {tick}s
@@ -109,19 +116,27 @@ export function TraceViewer() {
         {parents.map((span) => {
           const kids = children.filter((child) => child.parent === span.id);
           return (
-            <div key={span.id} className={kids.length ? "gantt-row is-tall" : "gantt-row"}>
-              <span className="gantt-name">
-                {span.name}
-                {span.note ? <span className="gantt-note">{span.note}</span> : null}
-              </span>
-              <div className="gantt-track">
+            <div key={span.id} className={kids.length ? "gantt-row is-replay" : "gantt-row"}>
+              <span className="gantt-name">{span.name}</span>
+              <div className={kids.length ? "gantt-track is-replay" : "gantt-track"}>
                 {illustrativeRun.ticks.slice(1, -1).map((tick) => (
-                  <span key={tick} className="gantt-line" style={{ left: `${(tick / illustrativeRun.axisSeconds) * 100}%` }} />
+                  <span
+                    key={tick}
+                    className={tick % 4 === 0 ? "gantt-line is-major" : "gantt-line"}
+                    style={{ left: `${(tick / illustrativeRun.axisSeconds) * 100}%` }}
+                  />
                 ))}
                 <SpanBar span={span} selected={selected === span.id} onSelect={select} fillRef={fills} />
-                {kids.map((child) => (
-                  <SpanBar key={child.id} span={child} selected={selected === child.id} onSelect={select} fillRef={fills} />
-                ))}
+                {kids.length ? (
+                  <div className="replay-kids">
+                    {kids.map((child) => (
+                      <div className="replay-kid" key={child.id}>
+                        <span className="kid-label">{child.name}</span>
+                        <SpanBar span={child} selected={selected === child.id} onSelect={select} fillRef={fills} />
+                      </div>
+                    ))}
+                  </div>
+                ) : null}
                 <span className="run-head" />
               </div>
             </div>

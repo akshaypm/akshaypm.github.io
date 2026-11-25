@@ -46,10 +46,14 @@ export function CaseFiles() {
               <span className="measure-label">{ge.measure?.before.label}</span>
               <span className="measure-track">
                 <span
+                  className="measure-bar is-solid"
+                  style={{ width: `${((ge.measure?.before.solidTo ?? 0) / (ge.measure?.axis ?? 1)) * 100}%` }}
+                />
+                <span
                   className="measure-bar is-hatched"
                   style={{
-                    left: `${((ge.measure?.before.from ?? 0) / (ge.measure?.axis ?? 1)) * 100}%`,
-                    width: `${(((ge.measure?.before.to ?? 0) - (ge.measure?.before.from ?? 0)) / (ge.measure?.axis ?? 1)) * 100}%`,
+                    left: `${((ge.measure?.before.hatchFrom ?? 0) / (ge.measure?.axis ?? 1)) * 100}%`,
+                    width: `${(((ge.measure?.before.hatchTo ?? 0) - (ge.measure?.before.hatchFrom ?? 0)) / (ge.measure?.axis ?? 1)) * 100}%`,
                   }}
                 />
               </span>
@@ -58,9 +62,15 @@ export function CaseFiles() {
               <span className="measure-label">{ge.measure?.after.label}</span>
               <span className="measure-track">
                 <span
-                  className="measure-bar is-solid"
+                  className="measure-bar is-pass"
                   style={{ width: `${((ge.measure?.after.to ?? 0) / (ge.measure?.axis ?? 1)) * 100}%` }}
                 />
+                <span
+                  className="measure-callout"
+                  style={{ left: `calc(${((ge.measure?.after.to ?? 0) / (ge.measure?.axis ?? 1)) * 100}% + 10px)` }}
+                >
+                  {ge.measure?.after.callout}
+                </span>
               </span>
             </div>
             <div className="measure-row measure-axis">
@@ -100,11 +110,22 @@ export function CaseFiles() {
           <div className="case-flip">
             <div className="ticker">
               <p className="ticker-caption">illustrative feed</p>
+              <div className="ticker-head">
+                <span>ts</span>
+                <span>gateway</span>
+                <span>facility</span>
+                <span>topic</span>
+                <span>status</span>
+              </div>
               <div className="ticker-window">
                 <div className="ticker-track" style={{ ["--n" as string]: jll.feed?.length ?? 0 }}>
                   {[...(jll.feed ?? []), ...(jll.feed ?? [])].map((line, index) => (
-                    <p className="ticker-line" key={`${line}-${index}`}>
-                      {line}
+                    <p className="ticker-line" key={`${line.ts}-${index}`}>
+                      <span className="ts">{line.ts}</span>
+                      <span>{line.gateway}</span>
+                      <span>{line.facility}</span>
+                      <span>{line.topic}</span>
+                      <span className="feed-ok">{line.status}</span>
                     </p>
                   ))}
                 </div>

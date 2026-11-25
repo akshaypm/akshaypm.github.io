@@ -259,12 +259,14 @@ export type DemoSpan = {
 
 function demoAttrs(span: DemoSpan) {
   const duration = span.end - span.start;
-  return [
+  const rows = [
     { key: "name", value: span.name },
     { key: "start", value: `${span.start.toFixed(1)}s` },
     { key: "duration", value: `${duration.toFixed(1)}s` },
     { key: "status", value: span.status },
   ];
+  if (span.note) rows.push({ key: "detail", value: span.note });
+  return rows;
 }
 
 const demoSpans: DemoSpan[] = [
@@ -273,8 +275,8 @@ const demoSpans: DemoSpan[] = [
   { id: "discover_evals", name: "discover_evals", start: 3.6, end: 4.8, status: "ok" },
   { id: "replay", name: "replay", start: 4.8, end: 9.6, status: "ok" },
   { id: "case_1", name: "case_1", start: 4.8, end: 6.0, status: "ok", parent: "replay", thin: true },
-  { id: "case_2", name: "case_2", start: 6.0, end: 7.2, status: "ok", parent: "replay", thin: true },
-  { id: "case_3", name: "case_3", start: 7.2, end: 8.4, status: "ok", parent: "replay", thin: true },
+  { id: "case_2", name: "case_2", start: 6.0, end: 7.3, status: "ok", parent: "replay", thin: true },
+  { id: "case_3", name: "case_3", start: 7.3, end: 8.4, status: "ok", parent: "replay", thin: true },
   { id: "case_4", name: "case_4", start: 8.4, end: 9.6, status: "ok", parent: "replay", thin: true },
   { id: "g_eval", name: "g_eval.score", start: 9.6, end: 11.0, status: "ok" },
   { id: "langfuse", name: "langfuse.trace", start: 0, end: 11.2, status: "ok", dotted: true },
@@ -294,16 +296,16 @@ export const illustrativeRun = {
 };
 
 export const illustrativeFeed = [
-  "gw-0412  facility-27  mqtt  telemetry  ok",
-  "gw-0188  facility-03  mqtt  telemetry  ok",
-  "gw-0771  facility-41  mqtt  telemetry  ok",
-  "gw-0094  facility-12  mqtt  heartbeat  ok",
-  "gw-0550  facility-27  mqtt  telemetry  ok",
-  "gw-0233  facility-08  mqtt  telemetry  ok",
-  "gw-0640  facility-55  mqtt  heartbeat  ok",
-  "gw-0319  facility-19  mqtt  telemetry  ok",
-  "gw-0821  facility-33  mqtt  telemetry  ok",
-  "gw-0144  facility-60  mqtt  heartbeat  ok",
+  { ts: "20:14:03.112", gateway: "gw-0412", facility: "facility-27", topic: "telemetry", status: "ok" },
+  { ts: "20:14:03.248", gateway: "gw-0188", facility: "facility-03", topic: "telemetry", status: "ok" },
+  { ts: "20:14:03.401", gateway: "gw-0771", facility: "facility-41", topic: "telemetry", status: "ok" },
+  { ts: "20:14:03.556", gateway: "gw-0094", facility: "facility-12", topic: "heartbeat", status: "ok" },
+  { ts: "20:14:03.702", gateway: "gw-0550", facility: "facility-27", topic: "telemetry", status: "ok" },
+  { ts: "20:14:03.844", gateway: "gw-0233", facility: "facility-08", topic: "telemetry", status: "ok" },
+  { ts: "20:14:04.019", gateway: "gw-0640", facility: "facility-55", topic: "heartbeat", status: "ok" },
+  { ts: "20:14:04.163", gateway: "gw-0319", facility: "facility-19", topic: "telemetry", status: "ok" },
+  { ts: "20:14:04.308", gateway: "gw-0821", facility: "facility-33", topic: "telemetry", status: "ok" },
+  { ts: "20:14:04.451", gateway: "gw-0144", facility: "facility-60", topic: "heartbeat", status: "ok" },
 ];
 
 const rangeFor = (id: string) => laidSpans.find((span) => span.id === id)?.range ?? "";
@@ -340,8 +342,8 @@ export const caseFiles = [
     ],
     measure: {
       axis: 30,
-      before: { label: "before 22-30 s", from: 22, to: 30 },
-      after: { label: "after <5 s", to: 5 },
+      before: { label: "before", solidTo: 22, hatchFrom: 22, hatchTo: 30 },
+      after: { label: "after", to: 5, callout: "22–30 s → <5 s" },
       ticks: [0, 5, 10, 15, 20, 25, 30],
       facts: [
         { key: "manual inputs", value: "10-12 → 1" },
