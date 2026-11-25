@@ -4,7 +4,7 @@ import { Contact } from "@/components/sections/Contact";
 import { Experience } from "@/components/sections/Experience";
 import { Hero } from "@/components/sections/Hero";
 import { SelectedWork } from "@/components/sections/SelectedWork";
-import { Sherpa } from "@/components/sections/Sherpa";
+import { Platform } from "@/components/sections/Platform";
 import { Skills } from "@/components/sections/Skills";
 import { Standards } from "@/components/sections/Standards";
 
@@ -17,7 +17,7 @@ export default function Home() {
       <Header />
       <main id="content">
         <Hero />
-        <Sherpa />
+        <Platform />
         <SelectedWork />
         <Skills />
         <Standards />

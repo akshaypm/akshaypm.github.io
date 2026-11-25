@@ -1,4 +1,4 @@
-import { email, linkedIn, resumeHref } from "@/lib/content";
+import { email, linkedIn, resumeMailto } from "@/lib/content";
 
 export function Contact() {
   return (
@@ -6,7 +6,7 @@ export function Contact() {
       <div className="frame">
         <p className="label">07 — Contact</p>
         <h2>Write.</h2>
-        <p className="lede">Senior AI Engineer, Bengaluru. Open to remote.</p>
+        <p className="lede">Senior AI Engineer, Bengaluru.</p>
         <a className="contact-email" href={`mailto:${email}`}>
           {email}
         </a>
@@ -17,8 +17,8 @@ export function Contact() {
             </a>
           </li>
           <li>
-            <a className="text-link" href={resumeHref} download>
-              Download resume
+            <a className="text-link" href={resumeMailto}>
+              Resume on request
             </a>
           </li>
         </ul>

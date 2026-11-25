@@ -16,7 +16,7 @@ A single-page portfolio that makes that reader believe Akshay P M is an Applied 
 
 ## Positioning
 
-He currently builds Sherpa-v2 at Norwin, a GCP Cloud Run platform that deploys and profiles AI-agent workloads. The ten years underneath that are production systems, not a model-research biography.
+He currently builds an AI-agent platform at Norwin, on GCP Cloud Run, that deploys and profiles AI-agent workloads. The ten years underneath that are production systems, not a model-research biography.
 
 ## Operating Context
 
@@ -37,8 +37,8 @@ The approved visual world is Signal Brief: editorial, calm, substance first. Pap
 ## Evidence on Hand
 
 - Master CV: claims, dates, titles, and the provenance notes for what must never be said.
-- Resume PDF, served as `/Akshay_PM_Resume.pdf`.
-- No portrait, no customer logos, no Sherpa metrics, no public GitHub repository yet.
+- The resume is sent on request by email. It is not stored in the site.
+- No portrait, no customer logos, no public GitHub repository yet.
 
 ## Product Principles
 

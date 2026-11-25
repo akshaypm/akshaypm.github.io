@@ -1,10 +1,10 @@
-import { resumeHref } from "@/lib/content";
+import { resumeMailto } from "@/lib/content";
 
 const links = [
   { href: "#work", label: "Work" },
   { href: "#experience", label: "Experience" },
   { href: "#contact", label: "Contact" },
-  { href: resumeHref, label: "Resume" },
+  { href: resumeMailto, label: "Resume" },
 ] as const;
 
 export function Header() {

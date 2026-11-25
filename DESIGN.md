@@ -71,7 +71,7 @@ The page is a recruiter's brief for an Applied AI engineer. The first screen has
 - One paper ground, one ink, one accent. The accent is a link, a focus ring, or the path through a diagram.
 - Type does the hierarchy. Newsreader for the claim, Geist for the prose, JetBrains Mono for indexes, dates, and the stack.
 - Sections are rows and rules, not cards. Vertical rhythm changes from section to section.
-- Motion is a short fade on the way in, and one drawn path on the Sherpa diagram. Nothing moves if the reader has asked for reduced motion.
+- Motion is a short fade on the way in, and one drawn path on the platform diagram. Nothing moves if the reader has asked for reduced motion.
 
 ## Colors
 
@@ -87,7 +87,7 @@ Display is `clamp(44px, 6vw, 88px)`, weight 400, tracking `-0.02em`, line-height
 
 ## Layout
 
-The page is one column of content inside a 12-column frame, max width 1200px. The hero and the Sherpa case study are asymmetric: the claim sits left, the current stack or the problem sits in the right margin. Selected work is a row (company, story, and for GE a small figure), not a card grid.
+The page is one column of content inside a 12-column frame, max width 1200px. The hero and the Norwin case study are asymmetric: the claim sits left, the current stack or the problem sits in the right margin. Selected work is a row (company, story, and for GE a small figure), not a card grid.
 
 Padding is not repeated. The hero, the case study, the skills, and the close each take a different amount of air. There is more space above a heading than between the heading and its first line.
 
@@ -103,7 +103,7 @@ Corners are square. Rules are 1px. Diagram strokes stay thin. The before/after m
 
 The primary control is an ink rectangle labeled Download resume. Hover turns the fill to paper and the type and border to accent. Email and LinkedIn are accent text links with an underline that thickens on hover.
 
-Navigation is a wordmark and four mono links. The current-work note is a ruled list, not a card. Case-study parts are mono labels (Problem, Architecture, My role, Outcome) over prose. The Sherpa diagram is inline SVG: six stations, accent only on the connecting path, a vertical variant below 900px.
+Navigation is a wordmark and four mono links. The current-work note is a ruled list, not a card. Case-study parts are mono labels (Problem, Architecture, My role, Outcome) over prose. The platform diagram is inline SVG: six stations, accent only on the connecting path, a vertical variant below 900px.
 
 ## Do's and Don'ts
 
@@ -117,6 +117,6 @@ Do:
 Don't:
 
 - Don't put the phone number on the page.
-- Don't claim an IEEE paper, RFC authorship, a JLL GPT, an MCP server, vLLM, BM25, shipped RAG, or a Sherpa metric.
+- Don't claim an IEEE paper, RFC authorship, a JLL GPT, an MCP server, vLLM, BM25, or shipped RAG.
 - Don't add cards, icon rows, gradients, glow, glass, or skill bars.
 - Don't render a placeholder for the public repository. The slot stays empty until a repo is cleared.

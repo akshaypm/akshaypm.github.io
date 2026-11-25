@@ -30,7 +30,7 @@ const jetbrains = JetBrains_Mono({
 });
 
 const description =
-  "Senior AI Engineer at Norwin in Bengaluru, open to remote. Ten years of production cloud, IoT, and backend. Now building Sherpa-v2 on GCP Cloud Run.";
+  "Senior AI Engineer at Norwin in Bengaluru. Ten years of production cloud, IoT, and backend. Builds an AI-agent deployment and evaluation platform on GCP Cloud Run.";
 
 export const viewport: Viewport = {
   width: "device-width",

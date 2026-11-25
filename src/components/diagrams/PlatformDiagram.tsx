@@ -3,7 +3,7 @@
 import { motion, useReducedMotion } from "framer-motion";
 
 const diagramTitle =
-  "Sherpa-v2: a workload is deployed on Cloud Run, profiled, and matched to evaluation datasets. The Executor replays those datasets against the deployment. G-Eval scores the run. Langfuse traces every step.";
+  "An AI-agent platform: a workload is deployed on Cloud Run, profiled, and matched to evaluation datasets. The Executor replays those datasets against the deployment. G-Eval scores the run. Langfuse traces every step.";
 
 const ink = "#141414";
 const stone = "#5B5750";
@@ -90,8 +90,8 @@ function Wide({ animate }: { animate: boolean }) {
   const labelX = Math.round((returnStart + deployMid) / 2);
 
   return (
-    <svg className="diagram-wide" viewBox="0 0 960 300" role="img" aria-labelledby="sherpa-wide-title">
-      <title id="sherpa-wide-title">{diagramTitle}</title>
+    <svg className="diagram-wide" viewBox="0 0 960 300" role="img" aria-labelledby="platform-wide-title">
+      <title id="platform-wide-title">{diagramTitle}</title>
 
       <text x={deploy} y={y1 - 34} fill={ink} fontSize="22" style={{ fontFamily: "var(--serif)" }}>
         Deploy
@@ -198,7 +198,7 @@ function Steps() {
   );
 }
 
-export function SherpaDiagram() {
+export function PlatformDiagram() {
   const reduce = useReducedMotion();
   const animate = reduce !== true;
 
