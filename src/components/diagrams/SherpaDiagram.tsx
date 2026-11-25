@@ -1,6 +1,7 @@
 "use client";
 
 import { motion, useReducedMotion } from "framer-motion";
+import { Reveal } from "@/components/Reveal";
 
 const diagramTitle =
   "Sherpa-v2: a workload is deployed on Cloud Run, profiled, and matched to evaluation datasets. The Executor replays those datasets against the deployment. G-Eval scores the run. Langfuse traces every step.";
@@ -163,80 +164,33 @@ function Wide({ animate }: { animate: boolean }) {
   );
 }
 
-function Stack({ animate }: { animate: boolean }) {
-  const x = 24;
-  const seg = 188;
-  const ys = [88, 204, 300, 396];
-  const gX = 72;
-  const gW = 140;
-  const gY = 500;
-  const ruleX = 276;
+const steps = [
+  { n: "01", name: "Deploy", sub: "Cloud Run workload", accent: false, replay: false },
+  { n: "02", name: "Profile", sub: "Framework and entry point", accent: false, replay: false },
+  { n: "03", name: "Discover", sub: "Eval datasets", accent: false, replay: false },
+  { n: "04", name: "Executor", sub: "MCP agent replays", accent: true, replay: true },
+  { n: "05", name: "G-Eval", sub: "scores the run", accent: true, replay: false },
+] as const;
 
+function Steps() {
   return (
-    <svg className="diagram-stack" viewBox="0 0 360 540" role="img" aria-labelledby="sherpa-stack-title">
-      <title id="sherpa-stack-title">{diagramTitle}</title>
-
-      <text x={x} y="22" fill={stone} fontSize="13">
-        Langfuse traces every step
-      </text>
-      <Stroke animate={false} dashed color={stone} d={`M ${ruleX} 36 V ${gY}`} />
-
-      <text x={x} y={ys[0] - 32} fill={ink} fontSize="18" style={{ fontFamily: "var(--serif)" }}>
-        Deploy
-      </text>
-      <text x={x} y={ys[0] - 8} fill={stone} fontSize="13">
-        Cloud Run workload
-      </text>
-      <Bar x={x} y={ys[0]} w={seg} h={1} color={ink} />
-
-      <text x={x} y={ys[1] - 48} fill={ink} fontSize="15">
-        Profile
-      </text>
-      <text x={x} y={ys[1] - 26} fill={stone} fontSize="13">
-        Framework and
-      </text>
-      <text x={x} y={ys[1] - 8} fill={stone} fontSize="13">
-        entry point
-      </text>
-      <Bar x={x} y={ys[1]} w={seg} h={1} color={ink} />
-
-      <text x={x} y={ys[2] - 28} fill={ink} fontSize="15">
-        Discover
-      </text>
-      <text x={x} y={ys[2] - 8} fill={stone} fontSize="13">
-        Eval datasets
-      </text>
-      <Bar x={x} y={ys[2]} w={seg} h={1} color={ink} />
-
-      <text x={x} y={ys[3] - 28} fill={accent} fontSize="15">
-        Executor
-      </text>
-      <text x={x} y={ys[3] - 8} fill={accent} fontSize="13">
-        MCP agent replays
-      </text>
-      <Bar x={x} y={ys[3]} w={seg} h={1} color={accent} />
-      <text x={x} y={ys[3] + 20} fill={accent} fontSize="13">
-        ↺ replays against Deploy
-      </text>
-
-      <text x={gX} y={gY - 36} fill={accent} fontSize="15">
-        G-Eval
-      </text>
-      <text x={gX} y={gY - 16} fill={accent} fontSize="13">
-        scores the run
-      </text>
-      <Bar x={gX} y={gY} w={gW} h={1} color={accent} />
-
-      <Bar x={x} y={ys[0] + 1} w={1} h={ys[1] - ys[0] - 7} color={ink} />
-      <Stroke animate={animate} color={ink} d={chevron(x, ys[1], "down", 6)} />
-      <Bar x={x} y={ys[1] + 1} w={1} h={ys[2] - ys[1] - 7} color={ink} />
-      <Stroke animate={animate} color={ink} d={chevron(x, ys[2], "down", 6)} />
-      <Bar x={x} y={ys[2] + 1} w={1} h={ys[3] - ys[2] - 7} color={ink} />
-      <Stroke animate={animate} color={ink} d={chevron(x, ys[3], "down", 6)} />
-
-      <Bar x={gX} y={ys[3] + 32} w={1} h={gY - ys[3] - 38} color={accent} />
-      <Stroke animate={animate} color={accent} d={chevron(gX, gY, "down", 6)} />
-    </svg>
+    <div className="diagram-steps">
+      <ol>
+        {steps.map((step) => (
+          <li key={step.n} className={step.accent ? "is-accent" : undefined}>
+            <span className="step-num" aria-hidden="true">
+              {step.n}
+            </span>
+            <span className="step-copy">
+              <span className="step-name">{step.name}</span>
+              <span className="step-sub">{step.sub}</span>
+              {step.replay ? <span className="step-replay">↺ replays against Deploy</span> : null}
+            </span>
+          </li>
+        ))}
+      </ol>
+      <p className="step-trace">Langfuse traces every step</p>
+    </div>
   );
 }
 
@@ -247,7 +201,9 @@ export function SherpaDiagram() {
   return (
     <figure className="diagram">
       <Wide animate={animate} />
-      <Stack animate={animate} />
+      <Reveal className="diagram-steps-wrap">
+        <Steps />
+      </Reveal>
       <figcaption className="caption">
         The Executor replays datasets against the deployment. G-Eval scores the run. Langfuse traces
         every step.
