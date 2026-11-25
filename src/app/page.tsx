@@ -1,3 +1,4 @@
+import { CaseFiles } from "@/components/trace/CaseFiles";
 import { Hero } from "@/components/trace/Hero";
 import { StatusBar } from "@/components/trace/StatusBar";
 import { Timeline } from "@/components/trace/Timeline";
@@ -13,7 +14,7 @@ export default function Home() {
       <main id="content">
         <Hero />
         <Timeline spans={laidSpans} years={yearMarks} maxMonths={maxMonths} />
-        <section id="work" hidden />
+        <CaseFiles />
         <section id="stack" hidden />
         <section id="contact" hidden />
       </main>

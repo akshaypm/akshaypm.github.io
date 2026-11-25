@@ -244,3 +244,123 @@ export const yearMarks = years.map((year) => ({
   left: yearLeft(year),
   spanId: spanIdForYear(year),
 }));
+
+export type DemoSpan = {
+  id: string;
+  name: string;
+  start: number;
+  end: number;
+  status: string;
+  thin?: boolean;
+  dotted?: boolean;
+  note?: string;
+  parent?: string;
+};
+
+function demoAttrs(span: DemoSpan) {
+  const duration = span.end - span.start;
+  return [
+    { key: "name", value: span.name },
+    { key: "start", value: `${span.start.toFixed(1)}s` },
+    { key: "duration", value: `${duration.toFixed(1)}s` },
+    { key: "status", value: span.status },
+  ];
+}
+
+const demoSpans: DemoSpan[] = [
+  { id: "deploy", name: "deploy", start: 0, end: 2.4, status: "ok" },
+  { id: "profile", name: "profile", start: 2.4, end: 3.6, status: "ok", note: "framework · entry points" },
+  { id: "discover_evals", name: "discover_evals", start: 3.6, end: 4.8, status: "ok" },
+  { id: "replay", name: "replay", start: 4.8, end: 9.6, status: "ok" },
+  { id: "case_1", name: "case_1", start: 4.8, end: 6.0, status: "ok", parent: "replay", thin: true },
+  { id: "case_2", name: "case_2", start: 6.0, end: 7.2, status: "ok", parent: "replay", thin: true },
+  { id: "case_3", name: "case_3", start: 7.2, end: 8.4, status: "ok", parent: "replay", thin: true },
+  { id: "case_4", name: "case_4", start: 8.4, end: 9.6, status: "ok", parent: "replay", thin: true },
+  { id: "g_eval", name: "g_eval.score", start: 9.6, end: 11.0, status: "ok" },
+  { id: "langfuse", name: "langfuse.trace", start: 0, end: 11.2, status: "ok", dotted: true },
+];
+
+export const illustrativeRun = {
+  runId: "demo-0001",
+  disclaimer: "Illustrative run · not real data",
+  axisSeconds: 12,
+  traceEnd: 11.2,
+  playMs: 4500,
+  score: 0.86,
+  threshold: 0.75,
+  ticks: [0, 2, 4, 6, 8, 10, 12],
+  spans: demoSpans.filter((span) => !span.parent).map((span) => ({ ...span, attrs: demoAttrs(span) })),
+  children: demoSpans.filter((span) => span.parent).map((span) => ({ ...span, attrs: demoAttrs(span) })),
+};
+
+export const illustrativeFeed = [
+  "gw-0412  facility-27  mqtt  telemetry  ok",
+  "gw-0188  facility-03  mqtt  telemetry  ok",
+  "gw-0771  facility-41  mqtt  telemetry  ok",
+  "gw-0094  facility-12  mqtt  heartbeat  ok",
+  "gw-0550  facility-27  mqtt  telemetry  ok",
+  "gw-0233  facility-08  mqtt  telemetry  ok",
+  "gw-0640  facility-55  mqtt  heartbeat  ok",
+  "gw-0319  facility-19  mqtt  telemetry  ok",
+  "gw-0821  facility-33  mqtt  telemetry  ok",
+  "gw-0144  facility-60  mqtt  heartbeat  ok",
+];
+
+const rangeFor = (id: string) => laidSpans.find((span) => span.id === id)?.range ?? "";
+
+export const caseFiles = [
+  {
+    id: "norwin",
+    index: "01",
+    org: "Norwin",
+    range: rangeFor("norwin"),
+    running: true,
+    title: "Deploy an agent. Prove it works.",
+    paragraphs: [
+      "Teams deploy agent workloads but can't tell whether they actually work.",
+      "A platform on GCP Cloud Run that deploys agent workloads to private Kubernetes, Azure and GCP, identifies each one's framework and entry points, discovers its evaluation datasets and replays them against the live deployment.",
+    ],
+    part: [
+      "LangGraph ReAct agents with tool calling on self-hosted open-weight LLMs via Ollama",
+      "The Executor agent as an MCP client",
+      "G-Eval LLM-as-judge scoring and Langfuse tracing on every run",
+      "Started an in-house guardrails layer",
+      "Hardened distributed runs: run-scoped trace identity, realigned timeout envelopes, infra faults separated from app errors",
+    ],
+  },
+  {
+    id: "ge",
+    index: "02",
+    org: "GE HealthCare",
+    range: rangeFor("ge"),
+    running: false,
+    title: "Provisioning in under 5 seconds",
+    paragraphs: [
+      "A regulated medical IoT platform for secure gateway onboarding and telemetry. Java CompletableFuture parallelism, tmpfs staging, and piped S3 multipart uploads. Edge Gateway Provisioning on Spectro Cloud and K3s. Technical direction for a 10-engineer team.",
+    ],
+    measure: {
+      axis: 30,
+      before: { label: "before 22-30 s", from: 22, to: 30 },
+      after: { label: "after <5 s", to: 5 },
+      ticks: [0, 5, 10, 15, 20, 25, 30],
+      facts: [
+        { key: "manual inputs", value: "10-12 → 1" },
+        { key: "images hardened", value: "10-15 · Trivy Critical=0 · distroless · Kyverno + cosign" },
+        { key: "MinIO migration", value: "zero downtime · TLS proxy · SigV4" },
+      ],
+    },
+  },
+  {
+    id: "jll",
+    index: "03",
+    org: "JLL Technologies",
+    range: rangeFor("jll"),
+    running: false,
+    title: "500+ gateways, one view",
+    paragraphs: [
+      "Observability for 500+ edge gateways across 60 facilities on multi-region AWS IoT Core, at 200+ msg/s MQTT. Problem detection +30%. Deploy time −40% with Terraform and SaltStack. Telemetry processing +15%.",
+    ],
+    stack: "Python, Django, DynamoDB, InfluxDB, Grafana, CloudWatch on EKS",
+    feed: illustrativeFeed,
+  },
+];
