@@ -324,7 +324,7 @@ h3 {
   scroll-margin-top: 108px;
 }
 
-.sherpa {
+.platform {
   padding: 28px 0 72px;
 }
 
@@ -380,7 +380,7 @@ h3 {
     margin-top: 20px;
   }
 
-  .sherpa {
+  .platform {
     padding: 12px 0 96px;
   }
 
@@ -430,23 +430,23 @@ h3 {
   color: var(--stone);
 }
 
-.sherpa-head {
+.platform-head {
   display: grid;
   grid-template-columns: 1fr;
   gap: 28px;
 }
 
-.sherpa-problem p,
-.sherpa-arch-copy p {
+.platform-problem p,
+.platform-arch-copy p {
   margin: 0;
   max-width: 62ch;
 }
 
-.sherpa-arch {
+.platform-arch {
   margin-top: 36px;
 }
 
-.sherpa-split {
+.platform-split {
   margin-top: 48px;
 }
 
@@ -808,24 +808,24 @@ h3 {
     grid-template-columns: repeat(12, minmax(0, 1fr));
   }
 
-  .sherpa-head {
+  .platform-head {
     grid-template-columns: repeat(12, minmax(0, 1fr));
     column-gap: 32px;
     row-gap: 18px;
     align-items: start;
   }
 
-  .sherpa-title {
+  .platform-title {
     grid-column: 1 / 8;
     grid-row: 1;
   }
 
-  .sherpa-arch-copy {
+  .platform-arch-copy {
     grid-column: 1 / 8;
     grid-row: 2;
   }
 
-  .sherpa-problem {
+  .platform-problem {
     grid-column: 8 / 13;
     grid-row: 1 / span 2;
   }

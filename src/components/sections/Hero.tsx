@@ -1,4 +1,4 @@
-import { email, linkedIn, nowStack, resumeHref } from "@/lib/content";
+import { email, linkedIn, nowStack, resumeMailto } from "@/lib/content";
 
 export function Hero() {
   return (
@@ -8,10 +8,10 @@ export function Hero() {
           <h1 id="hero-heading">
             I build agentic AI on ten years of production cloud and IoT.
           </h1>
-          <p className="lede">Senior AI Engineer at Norwin. Bengaluru, open to remote.</p>
+          <p className="lede">Senior AI Engineer at Norwin. Bengaluru.</p>
           <div className="actions">
-            <a className="btn" href={resumeHref} download>
-              Download resume
+            <a className="btn" href={resumeMailto}>
+              Resume on request
             </a>
             <a className="text-link" href={`mailto:${email}`}>
               Email
@@ -24,7 +24,7 @@ export function Hero() {
         <aside className="now" aria-label="Current stack">
           <p className="label">01 — Now</p>
           <p className="now-sentence">
-            Building Sherpa-v2 at Norwin, an AI-agent platform on GCP Cloud Run.
+            Building an AI-agent deployment and evaluation platform at Norwin, on GCP Cloud Run.
           </p>
           <ul className="now-list">
             {nowStack.map((item) => (

@@ -1,6 +1,6 @@
-export const resumeHref = "/Akshay_PM_Resume.pdf";
-
 export const email = "akshaypm90@gmail.com";
+
+export const resumeMailto = "mailto:akshaypm90@gmail.com?subject=Resume%20request";
 
 export const linkedIn = "https://www.linkedin.com/in/akshaypm90";
 
@@ -14,14 +14,14 @@ export const nowStack = [
   "GCP Cloud Run",
 ] as const;
 
-export const sherpa = {
+export const platform = {
   problem:
-    "Deployed agent workloads still have to be identified, evaluated, and traced. Sherpa-v2 is the GCP Cloud Run platform I build at Norwin for that work. It deploys and profiles an agent workload, classifies its framework and entry point, discovers evaluation datasets, and replays them against the deployment.",
+    "Deployed agent workloads still have to be identified, evaluated, and traced. The AI-agent platform I build at Norwin runs on GCP Cloud Run. It deploys and profiles an agent workload, classifies its framework and entry point, discovers evaluation datasets, and replays them against the deployment.",
   architecture:
     "Deploy on Cloud Run, profile the framework and entry point, and discover evaluation datasets. A client-side Executor MCP agent replays them against the deployment. G-Eval scores the run. Langfuse traces the whole run.",
   role: "I wrote LangGraph ReAct agents with tool calling and MCP client integration, including the client-side Executor that replays profiling datasets against live deployments. I implemented G-Eval as the LLM-as-judge and Langfuse tracing on those runs. For distributed runs I added run-scoped trace identity, separated infrastructure artifacts from application errors, and realigned timeout envelopes that were causing lease-expiry failures.",
   outcome:
-    "A workload can be deployed, classified, and replayed against the datasets Sherpa discovers. When a run fails, the trace stays with that run, an infrastructure fault is not treated as an application error, and a lease is not dropped by a timeout envelope that was too short.",
+    "A workload can be deployed, classified, and replayed against the datasets the platform discovers. When a run fails, the trace stays with that run, an infrastructure fault is not treated as an application error, and a lease is not dropped by a timeout envelope that was too short.",
 };
 
 export type WorkRow = {
@@ -56,7 +56,7 @@ export const selectedWork: WorkRow[] = [
     years: "Apr 2019 – Dec 2022",
     title: "Consultant → Senior Consultant",
     story:
-      "I owned the backend for McDonald’s BRE, an AWS IoT and Greengrass platform for drive-thru systems at 1,000+ US locations, and reduced edge-processing latency by 25%. I led 10 developers across two Spirit AeroSystems workstreams, including a data simulator that let the backend ship when client data was not available.",
+      "I owned the backend for an AWS IoT and Greengrass platform for drive-thru systems at 1,000+ US locations, and reduced edge-processing latency by 25%. I led 10 developers across two workstreams, including a data simulator that let the backend ship when client data was not available.",
     tech: "AWS IoT · Greengrass · Lambda · Node.js · PostgreSQL · Terraform",
   },
 ];
@@ -116,8 +116,8 @@ export const skillGroups: { title: string; items: string[] }[] = [
 export const experience: { when: string; where: string; what: string }[] = [
   {
     when: "Jun 2026 – Present",
-    where: "Norwin (7SG AI)",
-    what: "Senior AI Engineer. Sherpa-v2 on GCP Cloud Run.",
+    where: "Norwin",
+    what: "Senior AI Engineer. An AI-agent platform on GCP Cloud Run.",
   },
   {
     when: "Sep 2025 – May 2026",
@@ -137,7 +137,7 @@ export const experience: { when: string; where: string; what: string }[] = [
   {
     when: "Apr 2019 – Dec 2022",
     where: "Deloitte USI",
-    what: "Consultant → Senior Consultant. McDonald’s IoT at 1,000+ US locations. Led 10 developers.",
+    what: "Consultant → Senior Consultant. AWS IoT at 1,000+ US locations. Led 10 developers.",
   },
   {
     when: "Dec 2017 – Apr 2019",

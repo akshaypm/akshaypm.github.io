@@ -51,7 +51,7 @@
       {
         "name": "draw",
         "value": "SVG pathLength, 400ms, same ease",
-        "purpose": "The Sherpa key path, once, when it enters view."
+        "purpose": "The platform diagram key path, once, when it enters view."
       }
     ],
     "breakpoints": [
@@ -66,7 +66,7 @@
       "kind": "button",
       "refersTo": "button-primary",
       "description": "Download resume. Ink fill, square, mono label.",
-      "html": "<a class=\"ds-btn\" href=\"/Akshay_PM_Resume.pdf\">Download resume</a>",
+      "html": "<a class=\"ds-btn\" href=\"mailto:akshaypm90@gmail.com?subject=Resume%20request\">Resume on request</a>",
       "css": ".ds-btn{display:inline-flex;align-items:center;min-height:44px;padding:0 18px;background:#141414;color:#F6F3EC;border:1px solid #141414;border-radius:0;font-family:ui-monospace,monospace;font-size:12px;letter-spacing:0.08em;text-transform:uppercase;text-decoration:none}.ds-btn:hover{background:transparent;color:#1B3A6B;border-color:#1B3A6B}.ds-btn:focus-visible{outline:2px solid #1B3A6B;outline-offset:3px}"
     },
     {
@@ -82,7 +82,7 @@
       "kind": "nav",
       "refersTo": "button-primary",
       "description": "Wordmark and four links on a hairline.",
-      "html": "<header class=\"ds-nav\"><a class=\"ds-mark\" href=\"#top\">Akshay P M</a><nav><a href=\"#work\">Work</a><a href=\"#experience\">Experience</a><a href=\"#contact\">Contact</a><a href=\"/Akshay_PM_Resume.pdf\">Resume</a></nav></header>",
+      "html": "<header class=\"ds-nav\"><a class=\"ds-mark\" href=\"#top\">Akshay P M</a><nav><a href=\"#work\">Work</a><a href=\"#experience\">Experience</a><a href=\"#contact\">Contact</a><a href=\"mailto:akshaypm90@gmail.com?subject=Resume%20request\">Resume</a></nav></header>",
       "css": ".ds-nav{display:flex;justify-content:space-between;align-items:baseline;gap:24px;padding:16px 0;border-bottom:1px solid #D9D3C7;background:#F6F3EC}.ds-mark{font-family:Georgia,serif;font-size:17px;color:#141414;text-decoration:none}.ds-nav nav{display:flex;gap:20px}.ds-nav nav a{font-family:ui-monospace,monospace;font-size:12px;letter-spacing:0.08em;text-transform:uppercase;color:#141414;text-decoration:none}.ds-nav nav a:hover{color:#1B3A6B;text-decoration:underline}.ds-nav a:focus-visible{outline:2px solid #1B3A6B;outline-offset:3px}"
     },
     {
@@ -109,7 +109,7 @@
       "One paper ground, one ink, one accent. The accent is a link, a focus ring, or the path through a diagram.",
       "Type does the hierarchy. Newsreader for the claim, Geist for the prose, JetBrains Mono for indexes, dates, and the stack.",
       "Sections are rows and rules, not cards. Vertical rhythm changes from section to section.",
-      "Motion is a short fade on the way in, and one drawn path on the Sherpa diagram. Nothing moves if the reader has asked for reduced motion."
+      "Motion is a short fade on the way in, and one drawn path on the platform diagram. Nothing moves if the reader has asked for reduced motion."
     ],
     "rules": [
       { "name": "The Ink Rule", "body": "Accent #1B3A6B appears on links, focus rings, and the key path of a diagram. It is not a background, a heading, or a decoration.", "section": "colors" },
@@ -124,7 +124,7 @@
     ],
     "donts": [
       "Don't put the phone number on the page.",
-      "Don't claim an IEEE paper, RFC authorship, a JLL GPT, an MCP server, vLLM, BM25, shipped RAG, or a Sherpa metric.",
+      "Don't claim an IEEE paper, RFC authorship, a JLL GPT, an MCP server, vLLM, BM25, or shipped RAG.",
       "Don't add cards, icon rows, gradients, glow, glass, or skill bars.",
       "Don't render a placeholder for the public repository. The slot stays empty until a repo is cleared."
     ]
