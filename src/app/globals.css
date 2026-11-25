@@ -468,6 +468,7 @@ h3 {
 
 .diagram-steps {
   display: block;
+  opacity: 1;
 }
 
 .diagram-steps ol {
@@ -515,6 +516,7 @@ h3 {
   color: #5b5750;
 }
 
+.diagram-steps li.is-accent .step-num,
 .diagram-steps li.is-accent .step-name,
 .diagram-steps li.is-accent .step-sub,
 .step-replay {
@@ -522,9 +524,19 @@ h3 {
 }
 
 .step-replay {
+  display: flex;
+  align-items: center;
+  gap: 8px;
   margin-top: 4px;
   font-size: 13px;
   line-height: 1.4;
+}
+
+.step-replay-rule {
+  width: 12px;
+  height: 1px;
+  background: #1b3a6b;
+  flex: none;
 }
 
 .step-trace {
@@ -537,14 +549,22 @@ h3 {
   color: #5b5750;
 }
 
+.caption-more {
+  display: none;
+}
+
 @media (min-width: 768px) {
   .diagram svg.diagram-wide {
     display: block;
     width: min(960px, 100%);
   }
 
-  .diagram-steps-wrap {
+  .diagram-steps {
     display: none;
+  }
+
+  .caption-more {
+    display: inline;
   }
 }
 

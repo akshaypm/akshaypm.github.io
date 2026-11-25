@@ -1,7 +1,6 @@
 "use client";
 
 import { motion, useReducedMotion } from "framer-motion";
-import { Reveal } from "@/components/Reveal";
 
 const diagramTitle =
   "Sherpa-v2: a workload is deployed on Cloud Run, profiled, and matched to evaluation datasets. The Executor replays those datasets against the deployment. G-Eval scores the run. Langfuse traces every step.";
@@ -184,7 +183,12 @@ function Steps() {
             <span className="step-copy">
               <span className="step-name">{step.name}</span>
               <span className="step-sub">{step.sub}</span>
-              {step.replay ? <span className="step-replay">↺ replays against Deploy</span> : null}
+              {step.replay ? (
+                <span className="step-replay">
+                  <span className="step-replay-rule" aria-hidden="true" />
+                  Replays against Deploy
+                </span>
+              ) : null}
             </span>
           </li>
         ))}
@@ -201,12 +205,10 @@ export function SherpaDiagram() {
   return (
     <figure className="diagram">
       <Wide animate={animate} />
-      <Reveal className="diagram-steps-wrap">
-        <Steps />
-      </Reveal>
+      <Steps />
       <figcaption className="caption">
-        The Executor replays datasets against the deployment. G-Eval scores the run. Langfuse traces
-        every step.
+        The Executor replays datasets against the deployment. G-Eval scores the run.
+        <span className="caption-more"> Langfuse traces every step.</span>
       </figcaption>
     </figure>
   );
