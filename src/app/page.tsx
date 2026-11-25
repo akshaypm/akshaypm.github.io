@@ -1,30 +1,23 @@
-import { Header } from "@/components/Header";
-import { PublicBuild } from "@/components/PublicBuild";
-import { Contact } from "@/components/sections/Contact";
-import { Experience } from "@/components/sections/Experience";
-import { Hero } from "@/components/sections/Hero";
-import { SelectedWork } from "@/components/sections/SelectedWork";
-import { Platform } from "@/components/sections/Platform";
-import { Skills } from "@/components/sections/Skills";
-import { Standards } from "@/components/sections/Standards";
+import { Hero } from "@/components/trace/Hero";
+import { StatusBar } from "@/components/trace/StatusBar";
+import { Timeline } from "@/components/trace/Timeline";
+import { YearRuler } from "@/components/trace/YearRuler";
 
 export default function Home() {
   return (
-    <div id="top">
+    <>
       <a className="skip" href="#content">
         Skip to content
       </a>
-      <Header />
+      <StatusBar />
+      <YearRuler />
       <main id="content">
         <Hero />
-        <Platform />
-        <SelectedWork />
-        <Skills />
-        <Standards />
-        <Experience />
-        <PublicBuild />
+        <Timeline />
+        <section id="work" hidden />
+        <section id="stack" hidden />
+        <section id="contact" hidden />
       </main>
-      <Contact />
-    </div>
+    </>
   );
 }

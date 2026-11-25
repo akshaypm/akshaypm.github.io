@@ -1,0 +1,233 @@
+export const AXIS_START = Date.UTC(2015, 0, 1);
+export const AXIS_END = Date.UTC(2026, 10, 25);
+
+export type DetailRow = {
+  key: string;
+  value: string;
+  href?: string;
+};
+
+export type ChildSpan = {
+  label: string;
+  threshold?: boolean;
+};
+
+export type TraceSpan = {
+  id: string;
+  org: string;
+  title: string;
+  start: string;
+  end: string | "now";
+  running?: boolean;
+  children: ChildSpan[];
+  detail: DetailRow[];
+};
+
+export const years = [2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025, 2026];
+
+export const spans: TraceSpan[] = [
+  {
+    id: "norwin",
+    org: "Norwin Technologies",
+    title: "Senior AI Engineer",
+    start: "2026-06-01",
+    end: "now",
+    running: true,
+    children: [
+      { label: "agent deploy + profile" },
+      { label: "eval discovery + replay" },
+      { label: "G-Eval scoring + Langfuse tracing", threshold: true },
+      { label: "guardrails" },
+    ],
+    detail: [
+      {
+        key: "stack",
+        value: "Python, LangGraph, MCP (client), Langfuse, Ollama, GCP Cloud Run, Kubernetes, Azure",
+      },
+      {
+        key: "agents",
+        value: "LangGraph ReAct agents with tool calling on self-hosted open-weight LLMs served via Ollama",
+      },
+      { key: "executor", value: "The Executor agent as an MCP client" },
+      { key: "evaluation", value: "G-Eval LLM-as-judge plus Langfuse on every run" },
+      { key: "guardrails", value: "Started an in-house guardrails layer" },
+    ],
+  },
+  {
+    id: "ge",
+    org: "GE HealthCare",
+    title: "Staff Software Engineer (IoT Platform)",
+    start: "2025-09-01",
+    end: "2026-05-31",
+    children: [
+      { label: "provisioning" },
+      { label: "supply chain" },
+      { label: "edge migration" },
+      { label: "team direction" },
+    ],
+    detail: [
+      { key: "provisioning", value: "API 22–30 s → <5 s" },
+      { key: "inputs", value: "Manual inputs 10–12 → 1" },
+      {
+        key: "supply chain",
+        value: "Trivy gate at Critical=0, distroless, Kyverno + cosign",
+      },
+      { key: "migration", value: "Zero-downtime MinIO migration on edge gateways" },
+      { key: "team", value: "Technical direction for a 10-engineer team" },
+    ],
+  },
+  {
+    id: "jll",
+    org: "JLL Technologies",
+    title: "Senior Software Engineer",
+    start: "2023-07-01",
+    end: "2025-09-30",
+    children: [
+      { label: "gateways" },
+      { label: "detection" },
+      { label: "deploys" },
+      { label: "telemetry" },
+    ],
+    detail: [
+      { key: "fleet", value: "Observability for 500+ edge gateways across 60 facilities on AWS IoT Core" },
+      { key: "ingest", value: "200+ msg/s MQTT" },
+      { key: "detection", value: "Problem detection +30%" },
+      { key: "deploys", value: "Deploy time −40% with Terraform and SaltStack" },
+      { key: "telemetry", value: "Telemetry processing +15%" },
+    ],
+  },
+  {
+    id: "samsung",
+    org: "Samsung R&D Institute India",
+    title: "Chief Engineer",
+    start: "2023-01-01",
+    end: "2023-07-31",
+    children: [{ label: "kinesis" }],
+    detail: [{ key: "platform", value: "SmartThings Kinesis event-processing redesign, scalability +40%" }],
+  },
+  {
+    id: "deloitte",
+    org: "Deloitte USI",
+    title: "Senior Consultant / Consultant (IoT)",
+    start: "2019-04-01",
+    end: "2022-12-31",
+    children: [
+      { label: "drive-thru" },
+      { label: "leadership" },
+      { label: "industry 4.0" },
+      { label: "awards" },
+    ],
+    detail: [
+      {
+        key: "drive-thru",
+        value: "IoT backend (AWS IoT, Greengrass) at 1,000+ US locations, edge latency −25%",
+      },
+      { key: "leadership", value: "Led 10 developers" },
+      { key: "assessment", value: "Industry 4.0 assessment platform, report time −35%" },
+      { key: "awards", value: "Outstanding Award 2022 and Applause Award 2021" },
+    ],
+  },
+  {
+    id: "smartenspaces",
+    org: "Smartenspaces",
+    title: "IoT Developer",
+    start: "2017-12-01",
+    end: "2019-04-30",
+    children: [{ label: "navigation" }],
+    detail: [{ key: "navigation", value: "BLE indoor navigation, 90% location accuracy" }],
+  },
+  {
+    id: "incedo",
+    org: "Incedo",
+    title: "Software Engineer",
+    start: "2017-03-01",
+    end: "2017-11-30",
+    children: [{ label: "iot" }],
+    detail: [{ key: "platform", value: "IoT on Cisco EFF Cloud" }],
+  },
+  {
+    id: "iisc",
+    org: "Networks Lab, IISc",
+    title: "Project Assistant",
+    start: "2015-06-01",
+    end: "2016-12-31",
+    children: [{ label: "6lowpan" }, { label: "ietf" }],
+    detail: [
+      { key: "research", value: "6LoWPAN/RPL on Contiki" },
+      {
+        key: "standards",
+        value: "Co-authored the IETF Internet-Draft later published as RFC 9034",
+        href: "https://datatracker.ietf.org/doc/draft-lijo-6lo-expiration-time/",
+      },
+    ],
+  },
+];
+
+function utc(iso: string) {
+  const [y, m, d] = iso.split("-").map(Number);
+  return Date.UTC(y, m - 1, d);
+}
+
+export function spanEnd(span: TraceSpan) {
+  return span.end === "now" ? AXIS_END : utc(span.end);
+}
+
+export function spanStart(span: TraceSpan) {
+  return utc(span.start);
+}
+
+export function fraction(ms: number) {
+  return (ms - AXIS_START) / (AXIS_END - AXIS_START);
+}
+
+export function monthsBetween(start: number, end: number) {
+  const s = new Date(start);
+  const e = new Date(end);
+  return (e.getUTCFullYear() - s.getUTCFullYear()) * 12 + (e.getUTCMonth() - s.getUTCMonth());
+}
+
+export function formatDuration(months: number) {
+  const y = Math.floor(months / 12);
+  const m = months % 12;
+  if (y && m) return `${y}y ${m}m`;
+  if (y) return `${y}y`;
+  return `${m}m`;
+}
+
+export type LaidSpan = TraceSpan & {
+  left: number;
+  width: number;
+  months: number;
+  duration: string;
+  laidChildren: { label: string; threshold?: boolean; left: number; width: number }[];
+};
+
+export function layoutSpan(span: TraceSpan): LaidSpan {
+  const start = spanStart(span);
+  const end = spanEnd(span);
+  const left = fraction(start) * 100;
+  const width = Math.max(0, (fraction(end) - fraction(start)) * 100);
+  const months = Math.max(0, monthsBetween(start, end));
+  const count = Math.max(1, span.children.length);
+  const laidChildren = span.children.map((child, index) => ({
+    ...child,
+    left: left + (width * index) / count,
+    width: width / count,
+  }));
+  return { ...span, left, width, months, duration: formatDuration(months), laidChildren };
+}
+
+export const laidSpans = spans.map(layoutSpan);
+export const maxMonths = Math.max(...laidSpans.map((span) => span.months));
+
+export function spanIdForYear(year: number) {
+  const mid = Date.UTC(year, 6, 1);
+  const hit =
+    spans.find((span) => spanStart(span) <= mid && spanEnd(span) >= mid) ??
+    spans.find((span) => spanStart(span) <= Date.UTC(year, 11, 31) && spanEnd(span) >= Date.UTC(year, 0, 1));
+  return hit?.id ?? spans[spans.length - 1].id;
+}
+
+export function yearLeft(year: number) {
+  return fraction(Date.UTC(year, 0, 1)) * 100;
+}
