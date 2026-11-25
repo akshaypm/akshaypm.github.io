@@ -1,7 +1,9 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { laidSpans, maxMonths, type LaidSpan } from "@/data/trace";
+import type { LaidSpan } from "@/data/trace";
+
+type YearMark = { year: number; left: number; spanId: string };
 
 function Detail({ span, id }: { span: LaidSpan; id: string }) {
   return (
@@ -10,13 +12,7 @@ function Detail({ span, id }: { span: LaidSpan; id: string }) {
         {span.detail.map((row) => (
           <div key={row.key}>
             <dt>{row.key}</dt>
-            <dd>
-              {row.href ? (
-                <a href={row.href}>{row.value}</a>
-              ) : (
-                row.value
-              )}
-            </dd>
+            <dd>{row.href ? <a href={row.href}>{row.value}</a> : row.value}</dd>
           </div>
         ))}
       </dl>
@@ -24,41 +20,28 @@ function Detail({ span, id }: { span: LaidSpan; id: string }) {
   );
 }
 
-function Grow({
-  left,
-  width,
-  delay,
-  live,
-  thin,
-  label,
-}: {
-  left: number;
-  width: number;
-  delay: number;
-  live?: boolean;
-  thin?: boolean;
-  label?: string;
-}) {
+function Grow({ left, width, delay, live }: { left: number; width: number; delay: number; live?: boolean }) {
   const ref = useRef<HTMLDivElement>(null);
-  const [grown, setGrown] = useState(true);
 
   useEffect(() => {
     const media = window.matchMedia("(prefers-reduced-motion: reduce)");
-    if (media.matches) return;
     const el = ref.current;
-    if (!el) return;
+    if (!el || media.matches) return;
     let frame = 0;
     const grow = () => {
-      frame = requestAnimationFrame(() => setGrown(true));
+      frame = requestAnimationFrame(() => {
+        el.style.transition = `transform 420ms cubic-bezier(.2, .7, .1, 1) ${delay}s`;
+        el.style.transform = "scaleX(1)";
+      });
     };
+    el.style.transition = "none";
+    el.style.transform = "scaleX(0)";
     const rect = el.getBoundingClientRect();
     const inView = rect.bottom > 0 && rect.top < window.innerHeight;
     if (inView) {
-      setGrown(false);
       grow();
       return () => cancelAnimationFrame(frame);
     }
-    setGrown(false);
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (!entry.isIntersecting) return;
@@ -72,26 +55,37 @@ function Grow({
       cancelAnimationFrame(frame);
       observer.disconnect();
     };
-  }, []);
+  }, [delay]);
 
   return (
     <div
       ref={ref}
-      className={thin ? "child-bar" : "parent-bar"}
-      title={label}
-      style={{
-        left: `${left}%`,
-        width: live ? `calc(${width}% - 10px)` : `${width}%`,
-        background: live ? "var(--green)" : "rgba(14, 14, 14, 0.88)",
-        transformOrigin: "left center",
-        transform: grown ? "scaleX(1)" : "scaleX(0)",
-        transition: grown ? `transform 420ms cubic-bezier(.2, .7, .1, 1) ${delay}s` : "none",
-      }}
+      className={live ? "parent-bar is-live" : "parent-bar"}
+      style={{ left: `${left}%`, width: `${width}%` }}
     />
   );
 }
 
-export function Timeline() {
+function Axis({ years }: { years: YearMark[] }) {
+  return (
+    <>
+      {years.map((mark) => (
+        <span key={mark.year} className="gridline" style={{ left: `${mark.left}%` }} />
+      ))}
+      <span className="playhead" />
+    </>
+  );
+}
+
+export function Timeline({
+  spans,
+  years,
+  maxMonths,
+}: {
+  spans: LaidSpan[];
+  years: YearMark[];
+  maxMonths: number;
+}) {
   const [open, setOpen] = useState<Record<string, boolean>>({ norwin: true });
 
   function toggle(id: string) {
@@ -101,12 +95,38 @@ export function Timeline() {
   return (
     <section className="timeline" aria-labelledby="timeline-heading">
       <div className="frame">
-        <h2 id="timeline-heading">ROOT SPAN · 2015 → NOW</h2>
+        <p className="kicker">ROOT SPAN · 2015 → NOW · {spans.length} SPANS</p>
+        <h2 id="timeline-heading">Ten years, one trace.</h2>
         <div className="desktop-trace">
-          {laidSpans.map((span, index) => {
+          <div className="ruler-row">
+            <span />
+            <div className="ruler-track">
+              {years.map((mark, index) => (
+                <a
+                  key={mark.year}
+                  href={`#span-${mark.spanId}`}
+                  className={index === 0 ? "year is-first" : "year"}
+                  style={{ left: `${mark.left}%` }}
+                >
+                  <span className="tick" aria-hidden="true" />
+                  {mark.year}
+                </a>
+              ))}
+              <span className="playhead">
+                <span className="now-tag">NOW</span>
+              </span>
+            </div>
+            <span />
+          </div>
+          {spans.map((span, index) => {
             const expanded = Boolean(open[span.id]);
+            const end = span.left + span.width;
             return (
-              <article key={span.id} className="span-block" id={`span-${span.id}`}>
+              <article
+                key={span.id}
+                className={expanded ? "span-block is-open" : "span-block"}
+                id={`span-${span.id}`}
+              >
                 <button
                   type="button"
                   className="span-row"
@@ -119,36 +139,21 @@ export function Timeline() {
                     <span className="role">{span.title}</span>
                   </span>
                   <span className="track">
+                    <Axis years={years} />
                     <Grow left={span.left} width={span.width} delay={index * 0.04} live={span.running} />
-                    {span.laidChildren.map((child, childIndex) => (
-                      <Grow
-                        key={child.label}
-                        left={child.left}
-                        width={child.width}
-                        delay={index * 0.04 + (childIndex + 1) * 0.04}
-                        thin
-                        label={child.label}
-                      />
-                    ))}
-                    {span.laidChildren
-                      .filter((child) => child.threshold)
-                      .map((child) => (
-                        <span
-                          key={`${child.label}-mark`}
-                          className="threshold"
-                          style={{ left: `calc(${child.left + child.width}% - 2px)` }}
-                          title="G-Eval score threshold"
-                        />
-                      ))}
+                    <span className="tip" style={{ left: `${end}%` }}>
+                      {span.range}
+                    </span>
                     {span.running ? (
-                      <span
-                        className="live-dot"
-                        style={{ left: `calc(${span.left + span.width}% - 7px)` }}
-                        aria-hidden="true"
-                      />
+                      <>
+                        <span className="live-dot" style={{ left: `calc(${end}% - 4px)` }} aria-hidden="true" />
+                        <span className="running-tag" style={{ left: `calc(${end}% + 10px)` }}>
+                          RUNNING
+                        </span>
+                      </>
                     ) : null}
                   </span>
-                  <span className="duration">{span.running ? "running" : span.duration}</span>
+                  <span className="duration">{span.running ? "" : span.duration}</span>
                 </button>
                 {expanded ? <Detail span={span} id={`detail-${span.id}`} /> : null}
               </article>
@@ -156,16 +161,19 @@ export function Timeline() {
           })}
         </div>
         <div className="mobile-list">
-          {laidSpans.map((span) => {
+          <span className="m-axis-line" aria-hidden="true" />
+          {spans.map((span, index) => {
             const expanded = Boolean(open[span.id]);
             const height = Math.max(24, Math.round((span.months / maxMonths) * 96));
+            const year = span.start.slice(0, 4);
+            const showYear = index === 0 || spans[index - 1].start.slice(0, 4) !== year;
             return (
               <article key={span.id} className="m-span">
-                <span
-                  className={span.running ? "m-bar is-live" : "m-bar"}
-                  style={{ height }}
-                  aria-hidden="true"
-                />
+                <span className="m-axis">
+                  <span className="m-tick" aria-hidden="true" />
+                  <span className={span.running ? "m-bar is-live" : "m-bar"} style={{ height }} aria-hidden="true" />
+                  {span.running ? <span className="live-dot m-dot" aria-hidden="true" /> : null}
+                </span>
                 <div className="m-body">
                   <button
                     type="button"
@@ -174,13 +182,12 @@ export function Timeline() {
                     aria-controls={`detail-m-${span.id}`}
                     onClick={() => toggle(span.id)}
                   >
+                    {showYear ? <span className="m-year">{year}</span> : null}
                     <span className="org">{span.org}</span>
                     <span className="role">{span.title}</span>
                     <span className="m-meta">
-                      <span>
-                        {span.start.slice(0, 7)} → {span.end === "now" ? "now" : span.end.slice(0, 7)}
-                      </span>
-                      <span>{span.running ? "running" : span.duration}</span>
+                      <span>{span.range}</span>
+                      <span className={span.running ? "m-now" : undefined}>{span.running ? "NOW" : span.duration}</span>
                     </span>
                   </button>
                   {expanded ? <Detail span={span} id={`detail-m-${span.id}`} /> : null}

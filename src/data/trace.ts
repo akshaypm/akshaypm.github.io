@@ -1,5 +1,8 @@
 export const AXIS_START = Date.UTC(2015, 0, 1);
-export const AXIS_END = Date.UTC(2026, 10, 25);
+
+const builtAt = new Date();
+/** UTC day of the static build. The playhead and the open span both end here. */
+export const AXIS_END = Date.UTC(builtAt.getUTCFullYear(), builtAt.getUTCMonth(), builtAt.getUTCDate());
 
 export type DetailRow = {
   key: string;
@@ -199,6 +202,7 @@ export type LaidSpan = TraceSpan & {
   width: number;
   months: number;
   duration: string;
+  range: string;
   laidChildren: { label: string; threshold?: boolean; left: number; width: number }[];
 };
 
@@ -214,7 +218,8 @@ export function layoutSpan(span: TraceSpan): LaidSpan {
     left: left + (width * index) / count,
     width: width / count,
   }));
-  return { ...span, left, width, months, duration: formatDuration(months), laidChildren };
+  const range = `${span.start.slice(0, 7)} → ${span.end === "now" ? "now" : span.end.slice(0, 7)}`;
+  return { ...span, left, width, months, duration: formatDuration(months), range, laidChildren };
 }
 
 export const laidSpans = spans.map(layoutSpan);
@@ -231,3 +236,11 @@ export function spanIdForYear(year: number) {
 export function yearLeft(year: number) {
   return fraction(Date.UTC(year, 0, 1)) * 100;
 }
+
+export const nowLeft = fraction(AXIS_END) * 100;
+
+export const yearMarks = years.map((year) => ({
+  year,
+  left: yearLeft(year),
+  spanId: spanIdForYear(year),
+}));

@@ -20,7 +20,7 @@ export function StatusBar() {
           <span className="status-region">REGION::Bengaluru</span>
           <span className="status-live">
             STATUS::
-            <span className="live-dot" aria-hidden="true" />
+            <span className="status-dot" aria-hidden="true" />
             running
           </span>
         </p>

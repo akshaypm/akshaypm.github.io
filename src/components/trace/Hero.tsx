@@ -1,5 +1,13 @@
 const resumeMailto = "mailto:akshaypm90@gmail.com?subject=Resume%20request";
 
+const current = [
+  { key: "service", value: "ai-agent platform @ Norwin" },
+  { key: "since", value: "2026-06" },
+  { key: "runtime", value: "GCP Cloud Run · Kubernetes" },
+  { key: "agents", value: "LangGraph · MCP client" },
+  { key: "evals", value: "G-Eval · Langfuse" },
+];
+
 export function Hero() {
   return (
     <section className="hero" aria-labelledby="hero-heading">
@@ -17,6 +25,24 @@ export function Hero() {
           </a>
           <a href={resumeMailto}>resume → on request</a>
         </p>
+        <aside className="current" aria-label="Current span">
+          <p className="current-label">Current span</p>
+          <dl>
+            {current.map((row) => (
+              <div key={row.key}>
+                <dt>{row.key}</dt>
+                <dd>{row.value}</dd>
+              </div>
+            ))}
+            <div>
+              <dt>status</dt>
+              <dd className="current-status">
+                <span className="status-dot" aria-hidden="true" />
+                running
+              </dd>
+            </div>
+          </dl>
+        </aside>
       </div>
     </section>
   );
